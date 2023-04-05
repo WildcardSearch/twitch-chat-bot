@@ -103,6 +103,12 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 	{
 		const now = Date.now();
 
+		if (this.live === true) {
+			this.bot.sendMessage("The stream is already live.");
+
+			return;
+		}
+
 		if (options.msgPieces.length === 1 ||
 			typeof options.msgPieces[1] !== "string" ||
 			options.msgPieces[1].length === 0) {
