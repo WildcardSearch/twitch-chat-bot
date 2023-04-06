@@ -4,26 +4,28 @@
   "description": "an attempt to provide a generic, but highly-configurable platform for developers intending to create Twitch chat bots in Node.js",
   "main": "index.js",
   "directories": {
-    "lib": "lib"
+    "data": "data",
+    "lib": "lib",
+    "modules": "modules"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "twitch",
-    "chatbot",
     "bot",
+    "twitch",
+	"node",
+    "nodebot",
+    "chatbot",
     "twitchbot",
     "twitchchatbot",
-    "nodetwitchbot",
-    "nodetwitchchatbot",
-    "nodebot",
     "nodechatbot",
+    "nodetwitchbot",
     "nodetwitchchatbot",
     "nodejsbot",
     "nodejschatbot",
-    "nodejstwitchchatbot",
-    "nodejstwitchbot"
+    "nodejstwitchbot",
+    "nodejstwitchchatbot"
   ],
   "author": "WildcardSearch",
   "license": "AGPL-3.0-only",
