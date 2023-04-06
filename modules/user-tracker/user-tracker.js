@@ -292,8 +292,7 @@ class UserTracker_TwitchChatBotModule extends TwitchChatBotModule
 			return null;
 		}
 
-		// bob is always active if he is here, duh
-		return user.toLowerCase() === "bob_the_love_penguin" || Object.keys(this.activeChatters).indexOf(user.toLowerCase()) >= 0;
+		return user.toLowerCase() === this.bot.username.toLowerCase() || Object.keys(this.activeChatters).includes(user.toLowerCase()) === true;
 	}
 
 	/**
