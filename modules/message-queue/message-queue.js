@@ -208,8 +208,7 @@ class MessageQueue_TwitchChatBotModule extends TwitchChatBotModule
 	{
 		const message = this.queue.shift();
 
-		if (typeof message !== "string" ||
-			message.length === 0 ||
+		if (typeof message !== "object" ||
 			typeof message.text !== "string" ||
 			message.text.length === 0) {
 			console.log("Invalid message sent!");
