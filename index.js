@@ -13,7 +13,7 @@ const eventPriority = require("./data/event-priority.js");
 const moderation = require("./data/moderation.js");
 const time = require("./data/time.js");
 
-const functions = require("./functions.js");
+const functions = require("./lib/functions.js");
 
 
 module.exports = {
