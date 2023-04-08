@@ -1,11 +1,11 @@
-# twitch-chat-bot
-a highly customizable base Twitch chat bot to build on
+# twitch-chat-bot 0.0.1
+*a highly customizable base Twitch chat bot to build on*
 
 `npm install twitch-chat-bot`
 
 ```javascript
 const {
-	TwitchChatBot, TwitchChatBotModule,
+	TwitchChatBot,
 } = require("twitch-chat-bot");
 
 function main()
@@ -77,4 +77,3 @@ main();
 
 *Dictionary*
 - Built-in "dictionary" module allows the user to provide various different custom bot messages and have the system randomly select one of many while preventing repetition until the end of the list is reached. Provides a little variety for chat commands and/or replying to users
-
