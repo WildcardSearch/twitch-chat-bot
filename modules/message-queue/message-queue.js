@@ -7,8 +7,6 @@
 
 const TwitchChatBotModule = require("../../lib/twitch-chat-bot-module.js");
 
-const DELAY_MESSAGING = 4000;
-
 
 class MessageQueue_TwitchChatBotModule extends TwitchChatBotModule
 {
@@ -156,9 +154,9 @@ class MessageQueue_TwitchChatBotModule extends TwitchChatBotModule
 		}
 
 		if (this.lastMessageTime !== null &&
-			Date.now()-this.lastMessageTime < DELAY_MESSAGING) {
+			Date.now()-this.lastMessageTime < this.options.messaging.cooldown) {
 			this.waiting = true;
-			setTimeout(this.sendNext.bind(this), (DELAY_MESSAGING-Date.now()-this.lastMessageTime));
+			setTimeout(this.sendNext.bind(this), (this.options.messaging.cooldown-Date.now()-this.lastMessageTime));
 			return;
 		}
 
@@ -219,7 +217,7 @@ class MessageQueue_TwitchChatBotModule extends TwitchChatBotModule
 		}
 
 		if (this.queue.length > 0) {
-			setTimeout(this.sendNext.bind(this), DELAY_MESSAGING);
+			setTimeout(this.sendNext.bind(this), this.options.messaging.cooldown);
 		} else {
 			this.stop();
 		}
