@@ -11,6 +11,12 @@ const {
 	BOT_MOD_PERMISSION_ACT,
 } = require("../../data/moderation.js");
 
+const {
+	milliseconds, seconds, minutes,
+	hours, days, weeks,
+	months, years, decades, centuries,
+} = require("../../data/time.js");
+
 
 class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 {
@@ -77,6 +83,7 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 
 		if (this.disabledCommands.includes(cleanParameter1) === true) {
 			this.bot.sendMessage(`The ${cleanParameter1} command is already disabled.`);
+
 			return;
 		}
 
@@ -108,6 +115,7 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 
 		if (this.disabledCommands.includes(cleanParameter1) === false) {
 			this.bot.sendMessage(`The ${cleanParameter1} command is not currently disabled.`);
+
 			return;
 		}
 
@@ -343,7 +351,7 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 		}
 
 		if (this.blockedUsers.includes(lcSender)) {
-			if ((Date.now()-this.blockInfo[lcSender].timestamp) > this.blockInfo[lcSender].duration*1000) {
+			if ((Date.now()-this.blockInfo[lcSender].timestamp) > this.blockInfo[lcSender].duration*seconds) {
 				this.blockedUsers.splice(this.blockedUsers.indexOf(lcSender), 1);
 				delete this.blockInfo[lcSender];
 
@@ -391,7 +399,7 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 
 		/* permissions check */
 
-		if (typeof this.commands[cleanCommand].permissionLevel !== "undefined" &&
+		if (typeof this.commands[cleanCommand].permissionLevel === "number" &&
 			this.commands[cleanCommand].permissionLevel > this.permissions.permMap["PERMISSIONS_ALL"]) {
 			permitted = this.permissions.checkPermissions(cleanCommand, options);
 
@@ -586,7 +594,12 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 			return null;
 		}
 
-		let w = this.activity[user.toLowerCase()].warnings > this.options.moderation.warningsTillBan ? this.options.moderation.warningsTillBan : this.activity[user.toLowerCase()].warnings;
+		let w = this.activity[user.toLowerCase()].warnings;
+
+		if (w > this.options.moderation.warningsTillBan) {
+			w = this.options.moderation.warningsTillBan
+		}
+
 		let d = this.options.moderation.cooldownTimeoutMatrix[w];
 
 		if (d === false) {

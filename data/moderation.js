@@ -6,9 +6,10 @@
 
 
 const {
-	milliseconds, seconds, minutes, hours, days, weeks, months, years, decades, centuries,
+	milliseconds, seconds, minutes,
+	hours, days, weeks,
+	months, years, decades, centuries,
 } = require("./time.js");
-
 
 const COOLDOWN_COMMAND_USAGE_GLOBAL = 5*seconds;
 
@@ -28,7 +29,6 @@ const COOLDOWN_TIMEOUT_MATRIX = {
 	6: 900,
 	7: false,
 };
-
 
 const BOT_MOD_PERMISSION_NOTIFY = 0;
 const BOT_MOD_PERMISSION_ACT = 1;

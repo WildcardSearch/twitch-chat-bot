@@ -18,5 +18,7 @@ const centuries = 100*years;
 
 
 module.exports = {
-	milliseconds, seconds, minutes, hours, days, weeks, months, years, decades, centuries,
+	milliseconds, seconds, minutes,
+	hours, days, weeks,
+	months, years, decades, centuries,
 };

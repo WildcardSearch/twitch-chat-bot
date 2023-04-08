@@ -16,6 +16,11 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 {
 	id = "timer";
 
+	/**
+	 * register database fields
+	 *
+	 * @return void
+	 */
 	install()
 	{
 		this.db.registerField([{
@@ -30,15 +35,16 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 		}]);
 	}
 
+	/**
+	 * check and return installation status
+	 *
+	 * @return void
+	 */
 	isInstalled()
 	{
-		if (this.db.fieldExists("live") !== true ||
-			this.db.fieldExists("livetime") !== true ||
-			this.db.fieldExists("lastlive") !== true) {
-			return false;
-		}
-
-		return true;
+		return this.db.fieldExists("live") === true &&
+			this.db.fieldExists("livetime") === true &&
+			this.db.fieldExists("lastlive") === true;
 	}
 
 	/**

@@ -8,25 +8,10 @@
 const mysql = require('mysql');
 
 const {
-	ERROR_INVALID_CREDENTIALS,
-
-	ERROR_CONSTRUCTOR_NO_OPTIONS, ERROR_CONSTRUCTOR_NO_USERNAME, ERROR_CONSTRUCTOR_NO_OAUTH,
-	ERROR_CONSTRUCTOR_NO_CHANNELS,
-
-	ERROR_EVENT_ON_BAD_INFO, ERROR_EVENT_ON_INVALID_EVENT, ERROR_EVENT_REGISTER_BAD_INFO, ERROR_EVENT_REGISTER_DUPLICATE, ERROR_EVENT_OFF_BAD_INFO, ERROR_EVENT_OFF_INVALID_EVENT,
-	ERROR_EVENT_FIRE_BAD_INFO, ERROR_EVENT_FIRE_INVALID_EVENT,
-
-	ERROR_MODULE_INVALID_CONSTRUCTOR, ERROR_INTERNAL_MODULE_NO_KEY, ERROR_INTERNAL_MODULE_KEY_LENGTH_BELOW_MINIMUM,
-	ERROR_INTERNAL_MODULE_KEY_INVALID,
-
-	ERROR_DB_INVALID, ERROR_DB_MYSQL_CONNECT_FAIL, ERROR_DB_MYSQL_INSTALL_TABLE_FAIL,
+	ERROR_DB_MYSQL_CONNECT_FAIL, ERROR_DB_MYSQL_INSTALL_TABLE_FAIL,
 	ERROR_DB_MYSQL_READ_DATA_FAIL, ERROR_DB_MYSQL_INSERT_DATA_FAIL, ERROR_DB_MYSQL_READ_ID_FAIL,
 	ERROR_DB_MYSQL_READ_TABLES_FAIL, ERROR_DB_MYSQL_STORE_TABLES_FAIL, ERROR_DB_MYSQL_STORE_FIELDS_FAIL,
 	ERROR_DB_MYSQL_READ_FIELDS_FAIL, ERROR_DB_MYSQL_INSTALL_FIELD_FAIL,
-
-	ERROR_CURRENCY_NO_SYSTEM, ERROR_CURRENCY_ADD_BAD_INFO_NO_USERNAME, ERROR_CURRENCY_ADD_BAD_INFO_BAD_AMOUNT,
-
-	errorMessages,
 } = require("../../data/error-codes.js");
 
 const DB_Base_TwitchChatBotModule = require("./db-base.js");
@@ -140,6 +125,8 @@ class DB_MYSQL_TwitchChatBotModule extends DB_Base_TwitchChatBotModule
 			type: "number",
 		});
 
+		this.bot.log("MySQL Database Installation: 100%", "connected");
+
 		this.onConnect();
 	}
 
@@ -165,9 +152,10 @@ class DB_MYSQL_TwitchChatBotModule extends DB_Base_TwitchChatBotModule
 			onFail = () => {};
 		}
 
-		this.connection.query(`SELECT * FROM ${this.table} WHERE lastlive > ${n}`, function (err, result) {
+		this.simpleSelect("*", `lastlive > ${n}`, { callback: function checkForCrash(err, result) {
 			if (err) {
 				this.bot.error(ERROR_DB_MYSQL_READ_DATA_FAIL, err);
+
 				return;
 			}
 
@@ -175,8 +163,8 @@ class DB_MYSQL_TwitchChatBotModule extends DB_Base_TwitchChatBotModule
 				Array.isArray(result) !== true ||
 				result.length === 0) {
 				this.bot.log("new stream");
-
 				this.insertStreamRecord(onSuccess, onFail);
+
 				return;
 			}
 
@@ -185,8 +173,9 @@ class DB_MYSQL_TwitchChatBotModule extends DB_Base_TwitchChatBotModule
 
 			this.bot.streamId = result[0].id;
 			this.bot.streamData = this.buildStreamData(result[0]);
+
 			onSuccess();
-		}.bind(this));
+		}.bind(this)});
 	}
 
 
@@ -248,7 +237,6 @@ class DB_MYSQL_TwitchChatBotModule extends DB_Base_TwitchChatBotModule
 	/**
 	 * perform a query using passed info
 	 *
-	 * @param  String
 	 * @param  Array
 	 * @param  String
 	 * @param  Object

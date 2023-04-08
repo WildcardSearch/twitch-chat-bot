@@ -10,7 +10,7 @@ const TwitchChatBotModule = require("../../lib/twitch-chat-bot-module.js");
 
 class MessageQueue_TwitchChatBotModule extends TwitchChatBotModule
 {
-	id = "";
+	id = "message-queue";
 
 	/**
 	 * @return void

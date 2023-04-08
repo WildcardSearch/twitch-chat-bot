@@ -13,9 +13,10 @@ const StreamElements = require('node-streamelements');
 const SE_ERROR_USER_NOT_FOUND = 1;
 
 
-class StreamElements_CurrencySystem extends CurrencySystem_TwitchChatBotModule {
+class StreamElements_CurrencySystem
+	extends CurrencySystem_TwitchChatBotModule {
 	bot = null;
-	_se = null;
+	se = null;
 
 	/**
 	 * @param  TwitchChatBotModule
@@ -26,7 +27,7 @@ class StreamElements_CurrencySystem extends CurrencySystem_TwitchChatBotModule {
 	{
 		super(b);
 
-		this._se = se;
+		this.se = se;
 	}
 
 	/**
@@ -40,7 +41,7 @@ class StreamElements_CurrencySystem extends CurrencySystem_TwitchChatBotModule {
 	 */
 	addPoints(user, amount, onSuccess, onFail)
 	{
-		this._se.addUserPoints(user, parseInt(amount, 10))
+		this.se.addUserPoints(user, parseInt(amount, 10))
 		.then((response) => {
 			console.log({ response: response });
 
@@ -78,7 +79,7 @@ class StreamElements_CurrencySystem extends CurrencySystem_TwitchChatBotModule {
 	 */
 	subtractPoints(user, amount, onSuccess, onFail)
 	{
-		this._se.removeUserPoints(user, parseInt(amount, 10))
+		this.se.removeUserPoints(user, parseInt(amount, 10))
 		.then((response) => {
 			console.log({ response: response });
 
@@ -106,7 +107,7 @@ class StreamElements_CurrencySystem extends CurrencySystem_TwitchChatBotModule {
 	 */
 	getPoints(username, onSuccess, onFail)
 	{
-		this._se.getUserPoints(username)
+		this.se.getUserPoints(username)
 		.then((response) => {
 			console.log({ response: response });
 
@@ -117,29 +118,6 @@ class StreamElements_CurrencySystem extends CurrencySystem_TwitchChatBotModule {
 
 			onFail(error);
 		});
-	}
-
-	/**
-	 * shortcut for StreamElements.addUserPoints
-	 *
-	 * @param  String
-	 * @param  Number
-	 * @return void
-	 */
-	addUserPoints(user, amount)
-	{
-		return this._se.addUserPoints(user, amount);
-	}
-
-	/**
-	 * shortcut for StreamElements.removeUserPoints
-	 *
-	 * @param  String
-	 * @return void
-	 */
-	removeUserPoints(username, amount)
-	{
-		return this._se.removeUserPoints(username, amount);
 	}
 }
 

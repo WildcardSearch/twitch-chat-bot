@@ -12,6 +12,11 @@ class BlockList_TwitchChatBotModule extends TwitchChatBotModule
 {
 	id = "block-list";
 
+	/**
+	 * initialize the block list
+	 *
+	 * @return void
+	 */
 	init()
 	{
 		this.blocked = [];
