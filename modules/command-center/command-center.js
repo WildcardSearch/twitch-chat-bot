@@ -344,8 +344,6 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 			if (typeof this.commands[cleanCommand].cooldown === "number" &&
 				this.commands[cleanCommand].cooldown > 0 &&
 				(Date.now()-this.activity[lcSender].commands[cleanCommand]) < this.commands[cleanCommand].cooldown) {
-				this.cooldownWarning(userstate["display-name"], cleanCommand, `${userstate["display-name"]}, you are using the !${cleanCommand} command too quickly. Please slow down.`);
-
 				return;
 			}
 		}
