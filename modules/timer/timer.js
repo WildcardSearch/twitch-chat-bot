@@ -147,7 +147,7 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 		const now = Date.now();
 
 		if (this.options.timer.livetime === null) {
-			console.log("cancelling live timer startup");
+			this.bot.log("cancelling live timer startup");
 
 			return;
 		}
