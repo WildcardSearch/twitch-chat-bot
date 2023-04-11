@@ -1,4 +1,4 @@
-# twitch-chat-bot 0.0.1
+# twitch-chat-bot 0.0.2
 *a highly customizable base Twitch chat bot to build on*
 
 [![npm version](https://badge.fury.io/js/twitch-chat-bot.svg)](https://badge.fury.io/js/twitch-chat-bot)
@@ -46,6 +46,7 @@ main();
 - Moderation helper can be customized to notify moderators of abuse (eg. spamming commands) or instructed to perform timeouts/bans without human approval
 - Several commands built in to internal modules, pre-loaded
 - Abilty to enable and disable any command programmatically, through chat commands, and manually, through the options object
+- Override permissions for interl "default" commands
 
 *Self-Documenting*
 - Built-in `!helpfile` command that documents all commands, both internal and custom and produces documents for every permission level. Documents formatted for Discord Markdown.
