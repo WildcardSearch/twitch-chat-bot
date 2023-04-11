@@ -46,7 +46,7 @@ main();
 - Moderation helper can be customized to notify moderators of abuse (eg. spamming commands) or instructed to perform timeouts/bans without human approval
 - Several commands built in to internal modules, pre-loaded
 - Abilty to enable and disable any command programmatically, through chat commands, and manually, through the options object
-- Override permissions for interl "default" commands
+- Override permissions for internal "default" commands
 
 *Self-Documenting*
 - Built-in `!helpfile` command that documents all commands, both internal and custom and produces documents for every permission level. Documents formatted for Discord Markdown.
