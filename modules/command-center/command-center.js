@@ -193,11 +193,13 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 				return;
 			}
 
+			// store command
 			this.commands[k] = c;
 			this.commandList.push(k);
 
 			this.bot.log(`Command Center: added "!${k}" @ "${this.permissions.permLevelMap[c.permissionLevel || 0]}"`);
 
+			// aliases
 			if (typeof c.aliases !== "undefined" &&
 				c.aliases.length > 0) {
 				for (const alias of c.aliases) {
@@ -212,6 +214,7 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 				};
 			}
 
+			// shortcuts
 			if (typeof c.shortcuts !== "undefined" &&
 				c.shortcuts.length > 0) {
 				for (const sc of c.shortcuts) {
@@ -229,7 +232,8 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 	}
 
 	/**
-	 * parse command; apply shortcuts/aliases; check permissions; output text only, or run commands
+	 * parse command; apply shortcuts/aliases; check permissions;
+	 * check cooldowns; record user activity; output text only, or run commands
 	 * and return their output
 	 *
 	 * @param  Object

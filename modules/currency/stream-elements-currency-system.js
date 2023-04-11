@@ -15,7 +15,6 @@ const SE_ERROR_USER_NOT_FOUND = 1;
 
 class StreamElements_CurrencySystem
 	extends CurrencySystem_TwitchChatBotModule {
-	bot = null;
 	se = null;
 
 	/**
