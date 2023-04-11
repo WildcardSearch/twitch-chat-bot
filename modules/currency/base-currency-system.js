@@ -13,6 +13,8 @@ const {
 class CurrencySystem_TwitchChatBotModule {
 	valid = false;
 
+	bot = null;
+
 	/**
 	 * @param  TwitchChatBot
 	 * @return void

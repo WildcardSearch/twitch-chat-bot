@@ -15,7 +15,6 @@ const SE_ERROR_USER_NOT_FOUND = 1;
 
 class StreamElements_CurrencySystem
 	extends CurrencySystem_TwitchChatBotModule {
-	bot = null;
 	se = null;
 
 	/**
@@ -43,7 +42,7 @@ class StreamElements_CurrencySystem
 	{
 		this.se.addUserPoints(user, parseInt(amount, 10))
 		.then((response) => {
-			console.log({ response: response });
+			this.bot.log({ response: response });
 
 			if (typeof onSuccess === "function") {
 				onSuccess(response, { success: true });
@@ -52,10 +51,10 @@ class StreamElements_CurrencySystem
 		.catch((error) => {
 			let errorCode = 0;
 
-			console.log(`Error adding chips: ${error}`);
+			this.bot.log(`Error adding chips: ${error}`);
 
 			if (error === "Not Found") {
-				console.log(`"${user}" does not exist`);
+				this.bot.log(`"${user}" does not exist`);
 
 				errorCode = SE_ERROR_USER_NOT_FOUND;
 			} else {
@@ -81,14 +80,14 @@ class StreamElements_CurrencySystem
 	{
 		this.se.removeUserPoints(user, parseInt(amount, 10))
 		.then((response) => {
-			console.log({ response: response });
+			this.bot.log({ response: response });
 
 			if (typeof onSuccess === "function") {
 				onSuccess(response);
 			}
 		})
 		.catch((error) => {
-			console.log({ error: error });
+			this.bot.log({ error: error });
 			this.bot.sendMessage(`!editpoints ${user} -${amount}`);
 
 			if (typeof onFail === "function") {
@@ -109,12 +108,12 @@ class StreamElements_CurrencySystem
 	{
 		this.se.getUserPoints(username)
 		.then((response) => {
-			console.log({ response: response });
+			this.bot.log({ response: response });
 
 			onSuccess(response);
 		})
 		.catch((error) => {
-			console.log({ error: error });
+			this.bot.log({ error: error });
 
 			onFail(error);
 		});

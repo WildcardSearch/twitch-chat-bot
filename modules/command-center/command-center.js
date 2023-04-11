@@ -166,7 +166,7 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 	addCommand(command)
 	{
 		if (typeof command === "undefined") {
-			console.log({ msg: "no command data", arguments });
+			this.bot.log({ msg: "no command data", arguments });
 
 			return false;
 		}
@@ -188,21 +188,23 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 			let k = c.key;
 
 			if (this.commandList.includes(k) === true) {
-				console.log(`commandCenter.addCommand() duplicate command "${k}"`);
+				this.bot.log(`commandCenter.addCommand() duplicate command "${k}"`);
 
 				return;
 			}
 
+			// store command
 			this.commands[k] = c;
 			this.commandList.push(k);
 
 			this.bot.log(`Command Center: added "!${k}" @ "${this.permissions.permLevelMap[c.permissionLevel || 0]}"`);
 
+			// aliases
 			if (typeof c.aliases !== "undefined" &&
 				c.aliases.length > 0) {
 				for (const alias of c.aliases) {
 					if (this.aliasList.includes(alias) === true) {
-						console.log(`commandCenter.addCommand() duplicate alias "${alias}"`);
+						this.bot.log(`commandCenter.addCommand() duplicate alias "${alias}"`);
 
 						continue;
 					}
@@ -212,11 +214,12 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 				};
 			}
 
+			// shortcuts
 			if (typeof c.shortcuts !== "undefined" &&
 				c.shortcuts.length > 0) {
 				for (const sc of c.shortcuts) {
 					if (this.shortcutList.includes(sc) === true) {
-						console.log("commandCenter.addCommand() duplicate shortcut");
+						this.bot.log("commandCenter.addCommand() duplicate shortcut");
 
 						continue;
 					}
@@ -229,7 +232,8 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 	}
 
 	/**
-	 * parse command; apply shortcuts/aliases; check permissions; output text only, or run commands
+	 * parse command; apply shortcuts/aliases; check permissions;
+	 * check cooldowns; record user activity; output text only, or run commands
 	 * and return their output
 	 *
 	 * @param  Object
@@ -244,7 +248,7 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 		/* parameter checks */
 
 		if (typeof userstate === "undefined") {
-			console.log("Function received no user info.");
+			this.bot.log("Function received no user info.");
 			return false;
 		}
 
@@ -253,14 +257,14 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 		if (typeof this.bot.userTracker === "undefined" ||
 			typeof this.bot.userTracker.getRandomChatter === "undefined" ||
 			typeof this.bot.userTracker.getRandomActiveChatter === "undefined") {
-			console.log("userTracker not loaded.");
+			this.bot.log("userTracker not loaded.");
 
 			return false;
 		}
 
 		if (typeof message === "undefined" ||
 			message.length === 0) {
-			console.log("Function received blank message.");
+			this.bot.log("Function received blank message.");
 
 			return false;
 		}
@@ -270,7 +274,7 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 		if (msgPieces.length === 0 ||
 			typeof msgPieces[0] !== "string" ||
 			msgPieces[0].length === 0) {
-			console.log("Message array was empty.");
+			this.bot.log("Message array was empty.");
 
 			return false;
 		}
@@ -299,7 +303,7 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 
 		if (typeof this.commandList === "undefined" ||
 			this.commandList.includes(cleanCommand) === false) {
-			console.log(`Invalid command passed: ${cleanCommand}`);
+			this.bot.log(`Invalid command passed: ${cleanCommand}`);
 
 			return false;
 		}
@@ -308,7 +312,7 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 		/* disabled command? */
 
 		if (this.disabledCommands.includes(cleanCommand) === true) {
-			console.log(`blocked ${lcSender} from using "!${cleanCommand}"`);
+			this.bot.log(`blocked ${lcSender} from using "!${cleanCommand}"`);
 			this.bot.sendMessage(`The "${cleanCommand}" command is currently disabled.`);
 
 			return;
@@ -344,8 +348,6 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 			if (typeof this.commands[cleanCommand].cooldown === "number" &&
 				this.commands[cleanCommand].cooldown > 0 &&
 				(Date.now()-this.activity[lcSender].commands[cleanCommand]) < this.commands[cleanCommand].cooldown) {
-				this.cooldownWarning(userstate["display-name"], cleanCommand, `${userstate["display-name"]}, you are using the !${cleanCommand} command too quickly. Please slow down.`);
-
 				return;
 			}
 		}
@@ -355,11 +357,11 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 				this.blockedUsers.splice(this.blockedUsers.indexOf(lcSender), 1);
 				delete this.blockInfo[lcSender];
 
-				console.log(`cooldown violation expires: ${lcSender}`);
+				this.bot.log(`cooldown violation expires: ${lcSender}`);
 			} else {
 				this.cooldownWarning(userstate["display-name"], cleanCommand, `${userstate["display-name"]}, you are blocked from using commands for using commands too quickly. Please slow down.`);
 
-				console.log(`Blocked ${userstate["display-name"]} from using "!${cleanCommand}" for cooldown violation`);
+				this.bot.log(`Blocked ${userstate["display-name"]} from using "!${cleanCommand}" for cooldown violation`);
 
 				return;
 			}
@@ -404,7 +406,7 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 			permitted = this.permissions.checkPermissions(cleanCommand, options);
 
 			if (permitted !== true) {
-				console.log(`Permission denied: ${lcSender} -> "${message}"`);
+				this.bot.log(`Permission denied: ${lcSender} -> "${message}"`);
 
 				return;
 			}
@@ -440,8 +442,8 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 		this.activity[user.toLowerCase()].commands[cleanCommand] = Date.now();
 		this.activity[user.toLowerCase()].warnings++;
 
-		console.log(`USER WARNING: ${user}`);
-		console.log(this.activity[user.toLowerCase()]);
+		this.bot.log(`USER WARNING: ${user}`);
+		this.bot.log(this.activity[user.toLowerCase()]);
 
 		this.determineCorrectiveAction(user, message)
 	}
@@ -538,7 +540,7 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 	recommendBan(user)
 	{
 		if (this.activity[user.toLowerCase()].banWarning === true) {
-			console.log(`multiple ban warnings: ${user}`);
+			this.bot.log(`multiple ban warnings: ${user}`);
 
 			return;
 		}

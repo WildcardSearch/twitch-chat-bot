@@ -209,7 +209,7 @@ class MessageQueue_TwitchChatBotModule extends TwitchChatBotModule
 		if (typeof message !== "object" ||
 			typeof message.text !== "string" ||
 			message.text.length === 0) {
-			console.log("Invalid message sent!");
+			this.bot.log("Invalid message sent!");
 		} else {
 			this.output(message);
 			this.lastMessageTime = Date.now();

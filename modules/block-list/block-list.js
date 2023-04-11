@@ -60,7 +60,7 @@ class BlockList_TwitchChatBotModule extends TwitchChatBotModule
 	{
 		if (typeof user !== "string" ||
 			user.length === 0) {
-			console.log({ m: "bad info", user: user, exclude: exclude });
+			this.bot.log({ m: "bad info", user: user, exclude: exclude });
 
 			return false;
 		}
