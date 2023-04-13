@@ -55,9 +55,9 @@ class UserTracker_TwitchChatBotModule extends TwitchChatBotModule
 
 		if (typeof this.bot.streamData === "object" &&
 			typeof this.bot.streamData.chatters === "object") {
-			this.chatters = this.bot.streamData.chatters.chatters || {};
-			this.activeChatters = this.bot.streamData.chatters.activeChatters || {};
-			this.inactiveChatters = this.bot.streamData.chatters.inactiveChatters || {};
+			this.chatters = this.bot.streamData.chatters || {};
+			this.activeChatters = this.bot.streamData.activeChatters || {};
+			this.inactiveChatters = this.bot.streamData.inactiveChatters || {};
 		}
 
 		this.commandCenter.addCommand([{
@@ -118,8 +118,7 @@ class UserTracker_TwitchChatBotModule extends TwitchChatBotModule
 				lastMessage: Date.now(),
 			};
 
-		let name = "",
-			d = "";
+		let name = "";
 
 		if (typeof username == "undefined" ||
 			username.length <= 0 ||
@@ -139,16 +138,7 @@ class UserTracker_TwitchChatBotModule extends TwitchChatBotModule
 		this.chatters[name] = user;
 		this.activeChatters[name] = user;
 
-		d = {
-			chatters: this.chatters,
-			activeChatters: this.activeChatters,
-			inactiveChatters: this.inactiveChatters,
-		};
-
-		this.db.updateStreamInfo({
-			chatters: d,
-			timestamp: Date.now(),
-		});
+		this.updateDatabase();
 	}
 
 	/**
@@ -375,6 +365,20 @@ class UserTracker_TwitchChatBotModule extends TwitchChatBotModule
 		});
 
 		this.bot.sendMessage(userList);
+	}
+
+	/**
+	 * update the database with the current info
+	 *
+	 * @return void
+	 */
+	updateDatabase()
+	{
+		this.db.updateStreamInfo({
+			chatters: this.chatters,
+			activeChatters: this.activeChatters,
+			inactiveChatters: this.inactiveChatters,
+		});
 	}
 }
 
