@@ -100,6 +100,9 @@ class UserTracker_TwitchChatBotModule extends TwitchChatBotModule
 		}
 
 		this.activeChatters = newActives;
+		this.getInactiveChatters();
+
+		this.updateDatabase();
 
 		setTimeout(this.checkUserStatus.bind(this), this.options.userTracker.activeStatusCheckDelay);
 	}
