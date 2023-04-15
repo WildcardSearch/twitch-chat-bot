@@ -348,6 +348,8 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 			if (typeof this.commands[cleanCommand].cooldown === "number" &&
 				this.commands[cleanCommand].cooldown > 0 &&
 				(Date.now()-this.activity[lcSender].commands[cleanCommand]) < this.commands[cleanCommand].cooldown) {
+				this.bot.log(`Passive Block: ${userstate["display-name"]} -> ${cleanCommand}`);
+
 				return;
 			}
 		}
