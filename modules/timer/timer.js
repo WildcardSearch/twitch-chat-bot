@@ -55,12 +55,13 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 	init()
 	{
 		this.live = false;
-		this.liveTimeStamp = null;
+		this.liveTimestamp = null;
 		this.liveFunctions = [];
 		this.liveTimer = null;
 
 		const now = Date.now();
 
+		this.bot.registerEvent("live-time-update");
 		this.bot.registerEvent("live", true);
 		this.bot.isLive = this.isLive;
 
@@ -85,9 +86,9 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 			return;
 		}
 
-		this.liveTimeStamp = this.bot.streamData.livetime;
+		this.setLiveTimestamp(this.bot.streamData.livetime);
 
-		let msTillLive = this.liveTimeStamp-now;
+		let msTillLive = this.liveTimestamp-now;
 
 		if (this.bot.streamData.live ||
 			msTillLive <= 0) {
@@ -123,15 +124,15 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 			return;
 		}
 
-		this.setLiveTimeStamp(options.msgPieces[1]);
+		this.setLiveTimeStampFromParams(options.msgPieces[1]);
 
-		let msTillLive = this.liveTimeStamp-now;
+		let msTillLive = this.liveTimestamp-now;
 
 		this.liveTimer = setTimeout(this.onLive.bind(this), msTillLive);
 
 		this.db.updateStreamInfo({
 			live: 0,
-			livetime: this.liveTimeStamp,
+			livetime: this.liveTimestamp,
 		});
 
 		this.parseLiveTimeCommand();
@@ -152,16 +153,29 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 			return;
 		}
 
-		this.setLiveTimeStamp(this.options.timer.livetime);
+		this.setLiveTimeStampFromParams(this.options.timer.livetime);
 
-		let msTillLive = this.liveTimeStamp-now;
+		let msTillLive = this.liveTimestamp-now;
 
 		this.liveTimer = setTimeout(this.onLive.bind(this), msTillLive);
 
 		this.db.updateStreamInfo({
 			live: 0,
-			livetime: this.liveTimeStamp,
+			livetime: this.liveTimestamp,
 		});
+	}
+
+	/**
+	 * set the propety and fire the event
+	 *
+	 * @param  String|Number
+	 * @return void
+	 */
+	setLiveTimestamp(v)
+	{
+		this.liveTimestamp = v;
+
+		this.bot.fireEvent("live-time-update");
 	}
 
 	/**
@@ -170,7 +184,7 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 	 * @param  String|Number
 	 * @return void
 	 */
-	setLiveTimeStamp(lt = "top")
+	setLiveTimeStampFromParams(lt = "top")
 	{
 		const
 			rDate = new Date(),
@@ -246,12 +260,12 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 
 				break;
 			default:
-				this.bot.log({ error: "setLiveTimeStamp received bad info", arguments });
+				this.bot.log({ error: "setLiveTimeStampFromParams received bad info", arguments });
 
 				return;
 		}
 
-		this.liveTimeStamp = rDate.getTime();
+		this.setLiveTimestamp(rDate.getTime());
 	}
 
 	/**
@@ -265,19 +279,19 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 		let timeDescription = "";
 
 		if (this.live) {
-			timeDescription = formatTimeStamp(Date.now()-this.liveTimeStamp);
+			timeDescription = formatTimeStamp(Date.now()-this.liveTimestamp);
 			this.bot.sendMessage(`The stream has been live for ${timeDescription.description || "an unknown amount of time."}.`);
 
 			return;
 		}
 
-		if (this.liveTimeStamp === null) {
+		if (this.liveTimestamp === null) {
 			this.bot.sendMessage("No live time has been set...");
 
 			return;
 		}
 
-		timeDescription = formatTimeStamp(this.liveTimeStamp-Date.now());
+		timeDescription = formatTimeStamp(this.liveTimestamp-Date.now());
 		this.bot.sendMessage(`The stream will go live in ${timeDescription.description}.`);
 	}
 
@@ -327,7 +341,7 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 	 */
 	getLiveTime()
 	{
-		return this.liveTimeStamp;
+		return this.liveTimestamp;
 	}
 
 	/**
