@@ -243,6 +243,31 @@ class UserTracker_TwitchChatBotModule extends TwitchChatBotModule
 	}
 
 	/**
+	 * get a random chatter that has not been active recently
+	 *
+	 * @param  Array
+	 * @return void
+	 */
+	getRandomInactiveChatter(exclude)
+	{
+		let users = Object.keys(this.getInactiveChatters());
+
+		if (typeof exclude === "object" &&
+			exclude.length > 0) {
+			users = users.filter(n => exclude.includes(n) === false);
+		}
+
+		switch (users.length) {
+		case 0:
+			return false;
+		case 1:
+			return this.inactiveChatters[users[0]];
+		}
+
+		return this.inactiveChatters[arnd(users)];
+	}
+
+	/**
 	 * get the number of chatters
 	 *
 	 * @return void
