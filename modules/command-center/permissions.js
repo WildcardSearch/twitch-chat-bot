@@ -7,7 +7,8 @@
 
 const PERMISSIONS_ALL = 0;
 const PERMISSIONS_VIPS = 10;
-const PERMISSIONS_MODS = 20;
+const PERMISSIONS_SUBS = 20;
+const PERMISSIONS_MODS = 30;
 const PERMISSIONS_STREAMER = 100;
 
 const TwitchChatBotModule = require("../../lib/twitch-chat-bot-module.js");
@@ -34,6 +35,13 @@ class Permissions_TwitchChatBotModule extends TwitchChatBotModule
 				description: "VIPs",
 				test: (options) => {
 					return options.vip === true;
+				},
+			}, {
+				key: "PERMISSIONS_SUBS",
+				level: PERMISSIONS_SUBS,
+				description: "subscribers",
+				test: (options) => {
+					return options.subscriber === true;
 				},
 			}, {
 				key: "PERMISSIONS_MODS",
@@ -64,6 +72,7 @@ class Permissions_TwitchChatBotModule extends TwitchChatBotModule
 				typeof p.level !== "number" ||
 				p.level <= PERMISSIONS_ALL ||
 				p.level === PERMISSIONS_VIPS ||
+				p.level === PERMISSIONS_SUBS ||
 				p.level === PERMISSIONS_MODS ||
 				p.level >= PERMISSIONS_STREAMER ||
 				typeof p.test !== "function") {

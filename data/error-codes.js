@@ -55,33 +55,33 @@ const ERROR_MODULE_INVALID_CONSTRUCTOR = 11000;
 
 
 const errorMessages = {
-	1000: "Invalid or missing credentials.",
+	1000: "General: Invalid or missing credentials.",
 
-	2000: "constructor: no options passed",
-	2001: "constructor: no username passed",
-	2002: "constructor: no OAuth passed",
-	2003: "constructor: no channels passed",
+	2000: "Constructor: no options passed",
+	2001: "Constructor: no username passed",
+	2002: "Constructor: no OAuth passed",
+	2003: "Constructor: no channels passed",
 
-	3000: "Event Error - bad info passed to bob.on()",
-	3001: "Event Error - bad handler passed to bob.on()",
-	3002: "Event Error - invalid event passed to bob.on()",
+	3000: "Event Error: bad info passed to bob.on()",
+	3001: "Event Error: bad handler passed to bob.on()",
+	3002: "Event Error: invalid event passed to bob.on()",
 
-	4000: "Event Error - bad info passed to bob.registerEvent()",
-	4001: "Event Error - duplicate event sent to bob.registerEvent()",
+	4000: "Event Error: bad info passed to bob.registerEvent()",
+	4001: "Event Error: duplicate event sent to bob.registerEvent()",
 
-	5000: "Event Error - bad info passed to bob.off()",
-	5001: "Event Error - bad event passed to bob.off()",
-	5002: "Event Error - bad handler passed to bob.off()",
+	5000: "Event Error: bad info passed to bob.off()",
+	5001: "Event Error: bad event passed to bob.off()",
+	5002: "Event Error: bad handler passed to bob.off()",
 
-	6000: "Event Error - bad info passed to bob.fireEvent()",
-	6001: "Event Error - invalid event passed to bob.fireEvent()",
+	6000: "Event Error: bad info passed to bob.fireEvent()",
+	6001: "Event Error: invalid event passed to bob.fireEvent()",
 
-	7000: "Modules: External - Module Invalid",
+	7000: "Modules: External: Module Invalid",
 
-	8000: "Modules: Internal - missing key",
-	8001: "Modules: Internal - key too short (minimum = 3 characters)",
-	8002: "Modules: Internal - invalid key",
-	8003: "Modules: Internal - duplicate key",
+	8000: "Modules: Internal: missing key",
+	8001: "Modules: Internal: key too short (minimum = 3 characters)",
+	8002: "Modules: Internal: invalid key",
+	8003: "Modules: Internal: duplicate key",
 
 	9000: "Database Error: Invalid Database Module",
 	9001: "Database Error: Couldn't connect to MySQL",
@@ -126,8 +126,6 @@ module.exports = {
 	ERROR_EVENT_FIRE_BAD_INFO,
 	ERROR_EVENT_FIRE_INVALID_EVENT,
 
-	ERROR_MODULE_INVALID_CONSTRUCTOR,
-
 	ERROR_INTERNAL_MODULE_NO_KEY,
 	ERROR_INTERNAL_MODULE_KEY_LENGTH_BELOW_MINIMUM,
 	ERROR_INTERNAL_MODULE_KEY_INVALID,
@@ -153,6 +151,8 @@ module.exports = {
 
 	ERROR_CURRENCY_SUBTRACT_BAD_INFO_NO_USERNAME,
 	ERROR_CURRENCY_SUBTRACT_BAD_INFO_BAD_AMOUNT,
+
+	ERROR_MODULE_INVALID_CONSTRUCTOR,
 
 	errorMessages,
 };
