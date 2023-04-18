@@ -31,6 +31,8 @@ function ready()
 main();
 ```
 
+See: [Getting Started](https://github.com/WildcardSearch/twitch-chat-bot/wiki#getting-started)
+
 **Features:**
 
 - Easy to get started.
