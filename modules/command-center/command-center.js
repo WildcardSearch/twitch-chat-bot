@@ -243,7 +243,8 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 	parseCommand(userstate, message)
 	{
 		let cleanCommand, msgPieces,
-			permitted = false;
+			permitted = false,
+			userPermissionLevel = this.permissions.permMap["PERMISSIONS_ALL"];
 
 		/* parameter checks */
 
@@ -403,9 +404,17 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 
 		/* permissions check */
 
+		userPermissionLevel = this.permissions.getUserPermissionLevel(options);
+
 		if (typeof this.commands[cleanCommand].permissionLevel === "number" &&
 			this.commands[cleanCommand].permissionLevel > this.permissions.permMap["PERMISSIONS_ALL"]) {
-			permitted = this.permissions.checkPermissions(cleanCommand, options);
+			if (this.commands[cleanCommand].exclusivePermission === true &&
+				userPermissionLevel < this.permissions.permMap["PERMISSIONS_MODS"] &&
+				userPermissionLevel !== this.commands[cleanCommand].permissionLevel) {
+				permitted = false;
+			} else {
+				permitted = this.permissions.checkPermissions(cleanCommand, options);
+			}
 
 			if (permitted !== true) {
 				this.bot.log(`Permission denied: ${lcSender} -> "${message}"`);
