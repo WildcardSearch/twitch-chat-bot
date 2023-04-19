@@ -1,10 +1,10 @@
 This document is meant to provide a prioritized list of tasks I wish to complete, in order to improve and, ultimately release a stable version of this project.
 
-# 0.2.0 — Remove dependency upon `request`
+# 0.1.0 — Remove dependency upon `request`
 
 Will need to replace `node-streamelements` which relies on NPM `request`, a package with known vulnerabilities.
 
-# 0.3.0 — Error System
+# 0.2.0 — Error System
 
 Current system is for internal errors without possibility of extension.
 
@@ -14,7 +14,7 @@ Current system is for internal errors without possibility of extension.
 - provide access for modules to register error categories and codes
 - set up for easy production of docs
 
-# 0.4.0 — Currency Update
+# 0.3.0 — Currency Update
 
 - Add StreamLabs currency support
 - Add internal, custom currency support
