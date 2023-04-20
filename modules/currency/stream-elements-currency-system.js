@@ -7,7 +7,7 @@
 
 const CurrencySystem_TwitchChatBotModule = require("./base-currency-system.js");
 
-const StreamElements = require('node-streamelements');
+const StreamElements = require('nodejs-streamelements');
 
 
 const SE_ERROR_USER_NOT_FOUND = 1;

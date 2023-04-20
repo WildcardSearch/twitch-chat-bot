@@ -9,7 +9,7 @@ First of all, thanks for your interest in contributing to this project. This doc
 
 ## Submitting Pull Requests
 
-- No PR shall be accepted to the `master` branch.
+- No PR shall be accepted to the `main` branch.
 - Code should conform to coding standards represented in existing code
 - The first commit in the PR must be titled after this pattern: `Fixes #{Issue Number}` e.g. "Fixes #474".
 - If there are multiple commits in the PR, subsequent commits must be titled after this pattern: `For #{Issue Number}` e.g. "For #474"
