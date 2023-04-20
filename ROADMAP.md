@@ -1,6 +1,6 @@
 This document is meant to provide a prioritized list of tasks I wish to complete, in order to improve and, ultimately release a stable version of this project.
 
-✅ 0.1.0 — Remove dependency upon `request` (`node-streamelements` replaced with custom drop-in
+✅ 0.1.0 — Removes dependency upon `request` (`node-streamelements` replaced with custom drop-in.)
 
 # 0.2.0 — Error System
 
