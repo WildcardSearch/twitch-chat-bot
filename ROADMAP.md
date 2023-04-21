@@ -2,15 +2,7 @@ This document is meant to provide a prioritized list of tasks I wish to complete
 
 ✅ 0.1.0 — Removed dependency upon `request` (`node-streamelements` replaced with custom drop-in.)
 
-# 0.2.0 — Error System
-
-Current system is for internal errors without possibility of extension.
-
-- create a new module to handle processing errors and error codes
-- have current internal error code data reformatted
-- process internal error code data
-- provide access for modules to register error categories and codes
-- set up for easy production of docs
+✅ 0.2.0 — Error System revamped. Simple, but extensible and practical.
 
 # Other (To Be Scheduled)
 
