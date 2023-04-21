@@ -24,6 +24,7 @@ Before 1.0, I'd like to see many other features and changes to this project. Usu
 ## Self-Documentation
 
 Allow for every appropriate element to be documented automatically.
+
 ✅ commands
 - Error Codes
 - Event Priority
