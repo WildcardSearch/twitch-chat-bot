@@ -12,22 +12,30 @@ Current system is for internal errors without possibility of extension.
 - provide access for modules to register error categories and codes
 - set up for easy production of docs
 
-# 0.3.0 — Currency Update
-
-- Add StreamLabs currency support
-- Add internal, custom currency support
-
 # Other (To Be Scheduled)
 
 Before 1.0, I'd like to see many other features and changes to this project. Usually, that means that new tasks will be added to this list; some might be abandoned; others will get put off, while others may be prioritized more highly. Like the project, itself, this document is a work in progress.
+
+# Currency
+
+- Add StreamLabs currency support
+- Add internal, custom currency support
 
 ## Internationalization
 - add language system to allow translations
 
 ## `tmi.js`
-- disentangle `tmi.js` from the core
-- create public facing interface and allow continued support for `tmi.js` while allowing for other implentations, including a possible custom build
+- expand available events
+- document available resources in Wiki
 
-## Await Feedback
+## Self-Documentation
+
+Allow for every appropriate element to be documented automatically.
+✅ commands
+- Error Codes
+- Event Priority
+- Event List
+
+# Feedback
 
 You may provide casual feedback by replying to release discussions. If you would like to suggest improvements, please follow the guidance in [CONTRIBUTING.md](https://github.com/WildcardSearch/twitch-chat-bot/blob/main/CONTRIBUTING.md).
