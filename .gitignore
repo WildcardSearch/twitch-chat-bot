@@ -102,5 +102,9 @@ dist
 
 # TernJS port file
 .tern-port
+
+# debugging/testing
+
 modules/dictionary/blank.js
 modules/blank-internal-module.js
+modules/blank-error-codes.js

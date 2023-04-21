@@ -11,13 +11,18 @@ const {
 
 const TwitchChatBotModule = require("../../lib/twitch-chat-bot-module.js");
 
+const {
+	errorCategories, errorCodes, warningCodes,
+} = require("./error-codes.js");
+
 
 class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 {
 	id = "timer";
 
 	/**
-	 * register database fields
+	 * register database fields &
+	 * error codes
 	 *
 	 * @return void
 	 */
@@ -33,6 +38,10 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 			key: "lastlive",
 			type: "number",
 		}]);
+
+		this.errorHandler.registerCategories(errorCategories);
+		this.errorHandler.registerWarnings(warningCodes);
+		this.errorHandler.registerCodes(errorCodes);
 	}
 
 	/**
@@ -260,7 +269,7 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 
 				break;
 			default:
-				this.bot.log({ error: "setLiveTimeStampFromParams received bad info", arguments });
+				this.errorHandler.warn("ERROR_TIMER_SET_LIVE_TS_BAD_INFO", arguments);
 
 				return;
 		}
@@ -292,7 +301,7 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 		}
 
 		timeDescription = formatTimeStamp(this.liveTimestamp-Date.now());
-		this.bot.sendMessage(`The stream will go live in ${timeDescription.description}.`);
+		this.bot.sendMessage(`The stream will go live in ${timeDescription.description || "an unknown amount of time"}.`);
 	}
 
 	/**

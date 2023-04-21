@@ -7,10 +7,26 @@
 
 const TwitchChatBotModule = require("../../lib/twitch-chat-bot-module.js");
 
+const {
+	errorCategories, errorCodes, warningCodes,
+} = require("./error-codes.js");
+
 
 class BlockList_TwitchChatBotModule extends TwitchChatBotModule
 {
 	id = "block-list";
+
+	/**
+	 * install module elements
+	 *
+	 * @return void
+	 */
+	install()
+	{
+		this.errorHandler.registerCategories(errorCategories);
+		this.errorHandler.registerWarnings(warningCodes);
+		this.errorHandler.registerCodes(errorCodes);
+	}
 
 	/**
 	 * initialize the block list
@@ -60,7 +76,7 @@ class BlockList_TwitchChatBotModule extends TwitchChatBotModule
 	{
 		if (typeof user !== "string" ||
 			user.length === 0) {
-			this.bot.log({ m: "bad info", user: user, exclude: exclude });
+			this.errorHandler.warn("ERROR_BLOCK_LIST_ISBLOCKED_BAD_INFO_USERNAME", arguments);
 
 			return false;
 		}

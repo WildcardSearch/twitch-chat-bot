@@ -8,6 +8,10 @@
 const TwitchChatBotModule = require("../../lib/twitch-chat-bot-module.js");
 
 const {
+	errorCategories, errorCodes, warningCodes,
+} = require("./error-codes.js");
+
+const {
 	BOT_MOD_PERMISSION_ACT,
 } = require("../../data/moderation.js");
 
@@ -21,6 +25,18 @@ const {
 class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 {
 	id = "command-center";
+
+	/**
+	 * install module elements
+	 *
+	 * @return void
+	 */
+	install()
+	{
+		this.errorHandler.registerCategories(errorCategories);
+		this.errorHandler.registerWarnings(warningCodes);
+		this.errorHandler.registerCodes(errorCodes);
+	}
 
 	/**
 	 * set up module; register globals; and add commands
@@ -166,7 +182,7 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 	addCommand(command)
 	{
 		if (typeof command === "undefined") {
-			this.bot.log({ msg: "no command data", arguments });
+			this.errorHandler.warn("ERROR_COMMAND_CENTER_ADD_COMMAND_BAD_INFO", arguments);
 
 			return false;
 		}
@@ -182,13 +198,15 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 
 			if (typeof c === "undefined" ||
 				c.length === 0) {
+				this.errorHandler.warn("ERROR_COMMAND_CENTER_ADD_COMMAND_BAD_INFO", arguments);
+
 				continue;
 			}
 
 			let k = c.key;
 
 			if (this.commandList.includes(k) === true) {
-				this.bot.log(`commandCenter.addCommand() duplicate command "${k}"`);
+				this.errorHandler.warn("ERROR_COMMAND_CENTER_ADD_COMMAND_DUPLICATE_COMMAND");
 
 				return;
 			}
@@ -204,7 +222,7 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 				c.aliases.length > 0) {
 				for (const alias of c.aliases) {
 					if (this.aliasList.includes(alias) === true) {
-						this.bot.log(`commandCenter.addCommand() duplicate alias "${alias}"`);
+						this.errorHandler.warn("ERROR_COMMAND_CENTER_ADD_COMMAND_DUPLICATE_COMMAND_ALIAS", "Alias: "+(alias || "undefined"));
 
 						continue;
 					}
@@ -219,7 +237,7 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 				c.shortcuts.length > 0) {
 				for (const sc of c.shortcuts) {
 					if (this.shortcutList.includes(sc) === true) {
-						this.bot.log("commandCenter.addCommand() duplicate shortcut");
+						this.errorHandler.warn("ERROR_COMMAND_CENTER_ADD_COMMAND_DUPLICATE_COMMAND_SHORTCUT", "Shortcut: "+(sc || "undefined"));
 
 						continue;
 					}
@@ -249,7 +267,8 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 		/* parameter checks */
 
 		if (typeof userstate === "undefined") {
-			this.bot.log("Function received no user info.");
+			this.errorHandler.warn("ERROR_COMMAND_CENTER_PARSE_COMMAND_BAD_INFO", userstate);
+
 			return false;
 		}
 
@@ -258,14 +277,14 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 		if (typeof this.bot.userTracker === "undefined" ||
 			typeof this.bot.userTracker.getRandomChatter === "undefined" ||
 			typeof this.bot.userTracker.getRandomActiveChatter === "undefined") {
-			this.bot.log("userTracker not loaded.");
+			this.errorHandler.throwError("ERROR_COMMAND_CENTER_PARSE_COMMAND_USERTRACKER_MISSING");
 
 			return false;
 		}
 
 		if (typeof message === "undefined" ||
 			message.length === 0) {
-			this.bot.log("Function received blank message.");
+			this.errorHandler.warn("ERROR_COMMAND_CENTER_PARSE_COMMAND_BLANK_MESSAGE");
 
 			return false;
 		}
@@ -275,7 +294,7 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 		if (msgPieces.length === 0 ||
 			typeof msgPieces[0] !== "string" ||
 			msgPieces[0].length === 0) {
-			this.bot.log("Message array was empty.");
+			this.errorHandler.warn("ERROR_COMMAND_CENTER_PARSE_COMMAND_BLANK_MESSAGE");
 
 			return false;
 		}
