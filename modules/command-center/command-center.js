@@ -535,7 +535,7 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 			duration: d,
 		};
 
-		this.bot.sendMessage(`${user} you have been blocked from using commands for ${d} seconds for using commands too quickly. Please play nice.`);
+		this.bot.sendMessage(`${user} you have been blocked from using commands for ${d} seconds for using commands too quickly. Please, play nice.`);
 	}
 
 	/**

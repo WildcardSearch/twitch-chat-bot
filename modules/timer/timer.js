@@ -289,7 +289,7 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 
 		if (this.live) {
 			timeDescription = formatTimeStamp(Date.now()-this.liveTimestamp);
-			this.bot.sendMessage(`The stream has been live for ${timeDescription.description || "an unknown amount of time."}.`);
+			this.bot.sendMessage(`The stream has been live for ${timeDescription.description || "an unknown amount of time"}.`);
 
 			return;
 		}

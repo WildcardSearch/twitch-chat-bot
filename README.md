@@ -115,6 +115,3 @@ See: [Getting Started](https://github.com/WildcardSearch/twitch-chat-bot/wiki#ge
 *Database*
 - Built-in support for both MySQL and JSON file-based databases
 - Tracks streams live status, detects and reacts to crashes and prevents the bot from "starting over" if timers are in use
-
-*Dictionary*
-- Built-in "dictionary" module allows the user to provide various different custom bot messages and have the system randomly select one of many while preventing repetition until the end of the list is reached. Provides a little variety for chat commands and/or replying to users
