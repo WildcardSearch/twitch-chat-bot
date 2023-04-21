@@ -13,7 +13,7 @@ This document is meant to provide a prioritized list of tasks I wish to complete
 
 Before 1.0, I'd like to see many other features and changes to this project. Usually, that means that new tasks will be added to this list; some might be abandoned; others will get put off, while others may be prioritized more highly. Like the project, itself, this document is a work in progress.
 
-# Currency
+## Currency
 
 - Add StreamLabs currency support
 - Add internal, custom currency support
