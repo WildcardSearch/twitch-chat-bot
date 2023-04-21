@@ -23,6 +23,13 @@ class TwitchChatBotErrorHandler
 	{
 		this.bot = b;
 
+		this.categoryList = [];
+		this.categories = {};
+		this.categoryKeyMap = {};
+
+		this.nextCategoryId = CATEGORY_SPACING;
+		this.lastCategoryId = null;
+
 		this.warningCodeList = [];
 		this.warningCodes = {};
 		this.warningCodeMap = {};
@@ -30,13 +37,6 @@ class TwitchChatBotErrorHandler
 		this.errorCodeList = [];
 		this.errorCodes = {};
 		this.errorCodeMap = {};
-
-		this.categoryList = [];
-		this.categories = {};
-		this.categoryKeyMap = {};
-
-		this.nextCategoryId = CATEGORY_SPACING;
-		this.lastCategoryId = null;
 
 		this.registerCategories(errorCategories);
 		this.registerWarnings(warningCodes);
@@ -273,7 +273,7 @@ class TwitchChatBotErrorHandler
 	throwError(key)
 	{
 		let message = "the error that was thrown had no message content",
-			category = CATEGORY_SPACING;
+			categoryId = CATEGORY_SPACING;
 
 		if (typeof key !== "string" ||
 			key.length === 0 ||
@@ -295,13 +295,13 @@ class TwitchChatBotErrorHandler
 			message = this.errorCodes[id].message;
 		}
 
-		if (typeof this.errorCodes[id].category !== "number" ||
-			this.errorCodes[id].category < CATEGORY_SPACING) {
-			category = CATEGORY_SPACING;
+		if (typeof this.errorCodes[id].category === "number" &&
+			this.errorCodes[id].category >= CATEGORY_SPACING) {
+			categoryId = this.errorCodes[id].category;
 		}
 
 		let error = this.errorCodes[id];
-		let category = this.categories[this.errorCodes[id].category];
+		let category = this.categories[categoryId];
 
 		if (arguments.length > 1) {
 			let args = Array.prototype.slice.call(arguments);
