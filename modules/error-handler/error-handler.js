@@ -4,6 +4,7 @@
  * Copyright (c) 2020 WildcardSearch
  */
 
+
 const CATEGORY_KEY_MIN_LENGTH = 2;
 const CATEGORY_SPACING = 100000;
 
