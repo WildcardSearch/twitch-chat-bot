@@ -649,13 +649,18 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 	 * @param  String
 	 * @return void
 	 */
-	exec(commandString)
+	exec(commandString, user)
 	{
-		return this.parseCommand({
-			"display-name": this.bot.displayName,
-			subscriber: false,
-			mod: true,
-		}, commandString);
+		if (typeof user !== "object" ||
+			user === null) {
+			user = {
+				"display-name": this.bot.displayName,
+				subscriber: this.bot.isSubbed(),
+				mod: true,
+			};
+		}
+
+		return this.parseCommand(user, commandString);
 	}
 
 	/**
