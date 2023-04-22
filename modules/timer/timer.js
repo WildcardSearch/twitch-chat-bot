@@ -45,18 +45,6 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 	}
 
 	/**
-	 * check and return installation status
-	 *
-	 * @return void
-	 */
-	isInstalled()
-	{
-		return this.db.fieldExists("live") === true &&
-			this.db.fieldExists("livetime") === true &&
-			this.db.fieldExists("lastlive") === true;
-	}
-
-	/**
 	 * setup; add commands; get stream info and calculate/retrieve live time; start the live timer if applicable
 	 *
 	 * @return void

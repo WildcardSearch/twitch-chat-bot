@@ -30,17 +30,6 @@ class UserTracker_TwitchChatBotModule extends TwitchChatBotModule
 		}]);
 	}
 
-	isInstalled()
-	{
-		if (this.db.fieldExists("chatters") !== true ||
-			this.db.fieldExists("activeChatters") !== true ||
-			this.db.fieldExists("inactiveChatters") !== true) {
-			return false;
-		}
-
-		return true;
-	}
-
 	/**
 	 * setup; get stream data; add commands; attach bot events; check users active status
 	 *
