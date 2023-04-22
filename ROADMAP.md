@@ -2,12 +2,13 @@ This document is meant to provide a prioritized list of tasks I wish to complete
 
 ✅ 0.1.0 — Removed dependency upon `request` (`node-streamelements` replaced with custom drop-in.)
 
-✅ 0.2.0 — Error System revamped. Simple, but extensible and practical.
+✅ 0.2.0 — Error System revamped. Simple, extensible, and practical.
 
 # 0.3.0 `tmi.js`
 - expand available events
 - document available resources in Wiki
 - research services provided and exploit as many as are practical
+- provide access to customize tmi.js through initialization options
 
 # Other (To Be Scheduled)
 
