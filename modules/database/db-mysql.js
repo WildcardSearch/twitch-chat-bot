@@ -437,7 +437,7 @@ class DB_MYSQL_TwitchChatBotModule extends DB_Base_TwitchChatBotModule
 	{
 		this.connection.query("CREATE TABLE `"+this.table+"` (`id` int(10) NOT NULL AUTO_INCREMENT, `timestamp` bigint(20) DEFAULT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", (err, result) => {
 			if (err) {
-				this.bot.error(ERROR_DB_MYSQL_INSTALL_TABLE_FAIL, {
+				this.errorHandler.throwError("ERROR_DB_MYSQL_INSTALL_TABLE_FAIL", {
 					message: `error adding table '${this.table}' to '${this.options.database.credentials.database}'`,
 					error: err,
 				});
@@ -522,7 +522,7 @@ class DB_MYSQL_TwitchChatBotModule extends DB_Base_TwitchChatBotModule
 
 		this.connection.query(`ALTER TABLE ${this.table} ADD COLUMN ${name} ${def}${defaultValue}`, (err, result) => {
 			if (err) {
-				this.bot.error(ERROR_DB_MYSQL_INSTALL_FIELD_FAIL, {
+				this.errorHandler.throwError("ERROR_DB_MYSQL_INSTALL_FIELD_FAIL", {
 					message: `error adding column '${name}' to '${this.table}'`,
 					err,
 				});
