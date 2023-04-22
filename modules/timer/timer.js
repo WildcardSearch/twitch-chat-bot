@@ -195,71 +195,71 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 		}
 
 		switch(typeof lt) {
-			case "string":
-				switch(lt) {
-					case "top":
-						rDate.setHours(hrs+1);
-						rDate.setMinutes(0);
-						rDate.setSeconds(0);
-						rDate.setMilliseconds(0);
-						break;
-					case "bottom":
-						if (mins > 30) {
-							rDate.setHours(hrs+1);
+		case "string":
+			switch(lt) {
+			case "top":
+				rDate.setHours(hrs+1);
+				rDate.setMinutes(0);
+				rDate.setSeconds(0);
+				rDate.setMilliseconds(0);
+				break;
+			case "bottom":
+				if (mins > 30) {
+					rDate.setHours(hrs+1);
+					rDate.setMinutes(30);
+				} else {
+					rDate.setMinutes(30);
+				}
+
+				rDate.setSeconds(0);
+				rDate.setMilliseconds(0);
+				break;
+			case "nextquarter":
+				if (mins > 45) {
+					rDate.setHours(hrs+1);
+					rDate.setMinutes(0);
+				} else {
+					if (mins > 30) {
+						rDate.setMinutes(45);
+					} else {
+						if (mins > 15) {
 							rDate.setMinutes(30);
 						} else {
-							rDate.setMinutes(30);
+							rDate.setMinutes(15);
 						}
-
-						rDate.setSeconds(0);
-						rDate.setMilliseconds(0);
-						break;
-					case "nextquarter":
-						if (mins > 45) {
-							rDate.setHours(hrs+1);
-							rDate.setMinutes(0);
-						} else {
-							if (mins > 30) {
-								rDate.setMinutes(45);
-							} else {
-								if (mins > 15) {
-									rDate.setMinutes(30);
-								} else {
-									rDate.setMinutes(15);
-								}
-							}
-						}
-						rDate.setSeconds(0);
-						rDate.setMilliseconds(0);
-						break;
+					}
 				}
-
+				rDate.setSeconds(0);
+				rDate.setMilliseconds(0);
 				break;
-			case "number":
-				let wait = parseInt(lt, 10),
-					hoursToAdd = 0;
+			}
 
-				// input is in minutes, so allow for large values
-				while (wait > (60-mins)) {
-					hoursToAdd++;
+			break;
+		case "number":
+			let wait = parseInt(lt, 10),
+				hoursToAdd = 0;
 
-					wait -= (60-mins);
-					mins = 0;
-				}
+			// input is in minutes, so allow for large values
+			while (wait > (60-mins)) {
+				hoursToAdd++;
 
-				if (hoursToAdd > 0) {
-					rDate.setHours(hrs+hoursToAdd);
-				}
+				wait -= (60-mins);
+				mins = 0;
+			}
 
-				if (wait > 0) {
-					rDate.setMinutes(mins+wait);
-				}
+			if (hoursToAdd > 0) {
+				rDate.setHours(hrs+hoursToAdd);
+			}
 
-				break;
-			default:
-				this.errorHandler.warn("ERROR_TIMER_SET_LIVE_TS_BAD_INFO", arguments);
+			if (wait > 0) {
+				rDate.setMinutes(mins+wait);
+			}
 
-				return;
+			break;
+		default:
+			this.errorHandler.warn("ERROR_TIMER_SET_LIVE_TS_BAD_INFO", arguments);
+
+			return;
 		}
 
 		this.setLiveTimestamp(rDate.getTime());

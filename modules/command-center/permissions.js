@@ -106,25 +106,7 @@ class Permissions_TwitchChatBotModule extends TwitchChatBotModule
 			allPerms[p.level] = p;
 		}
 
-		permLevelList.sort((a, b) =>{
-			let ca = parseInt(a, 10) || 0;
-			let cb = parseInt(b, 10) || 0;
-
-			switch(true) {
-				case ca > cb:
-					return 1;
-
-					break;
-				case ca === cb:
-					return 0;
-
-					break;
-				case ca < cb:
-					return -1;
-
-					break;
-			}
-		});
+		permLevelList.sort((a, b) => a - b);
 
 		for (const l of permLevelList) {
 			let p = allPerms[l];
