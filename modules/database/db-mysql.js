@@ -8,7 +8,7 @@
 const mysql = require('mysql');
 
 const {
-	errorCategories, errorCodes,
+	errorCategories, errorCodes, warningCodes,
 } = require("./error-codes-mysql.js");
 
 const DB_Base_TwitchChatBotModule = require("./db-base.js");
@@ -30,6 +30,7 @@ class DB_MYSQL_TwitchChatBotModule extends DB_Base_TwitchChatBotModule
 	connect()
 	{
 		this.errorHandler.registerCategories(errorCategories);
+		this.errorHandler.registerCodes(warningCodes);
 		this.errorHandler.registerCodes(errorCodes);
 
 		this.fields = {};

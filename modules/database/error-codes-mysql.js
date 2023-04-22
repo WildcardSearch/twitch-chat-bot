@@ -7,6 +7,8 @@
 
 const errorCategories = [];
 
+const warningCodes = [];
+
 const errorCodes = [
 	{
 		key: "ERROR_DB_MYSQL_CONNECT_FAIL",
@@ -55,4 +57,5 @@ const errorCodes = [
 module.exports = {
 	errorCategories: errorCategories,
 	errorCodes: errorCodes,
+	warningCodes: warningCodes,
 };

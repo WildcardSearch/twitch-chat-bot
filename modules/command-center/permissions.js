@@ -157,7 +157,7 @@ class Permissions_TwitchChatBotModule extends TwitchChatBotModule
 
 		if (typeof commands[cmd] !== "object" ||
 			commands[cmd] === null) {
-			this.bot.log("fail");
+			this.errorHandler.warn("ERROR_PERMISSIONS_CHECK_PERMISSIONS_NO_DATA", cmd, options);
 
 			return;
 		}
