@@ -18,6 +18,7 @@ class DB_Base_TwitchChatBotModule
 
 	options = null;
 	credentials = null;
+	errorHandler = null;
 
 	/**
 	 * @param  TwitchChatBotModule
@@ -41,6 +42,7 @@ class DB_Base_TwitchChatBotModule
 
 		this.bot = b;
 		this.options = this.bot.options;
+		this.errorHandler = this.bot.errorHandler;
 		this.valid = true;
 
 		this.connect();

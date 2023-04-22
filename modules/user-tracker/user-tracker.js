@@ -30,17 +30,6 @@ class UserTracker_TwitchChatBotModule extends TwitchChatBotModule
 		}]);
 	}
 
-	isInstalled()
-	{
-		if (this.db.fieldExists("chatters") !== true ||
-			this.db.fieldExists("activeChatters") !== true ||
-			this.db.fieldExists("inactiveChatters") !== true) {
-			return false;
-		}
-
-		return true;
-	}
-
 	/**
 	 * setup; get stream data; add commands; attach bot events; check users active status
 	 *
@@ -123,9 +112,10 @@ class UserTracker_TwitchChatBotModule extends TwitchChatBotModule
 
 		let name = "";
 
-		if (typeof username == "undefined" ||
+		if (typeof username === "undefined" ||
 			username.length <= 0 ||
 			this.blockedList.isBlocked(username)) {
+
 			return;
 		}
 
@@ -173,11 +163,8 @@ class UserTracker_TwitchChatBotModule extends TwitchChatBotModule
 	{
 		let inactives = {};
 
-		switch (this.chatters.length) {
-		case this.activeChatters.length:
-			return false;
-		case 0:
-			this.bot.sendMessage("Ain't nobody here!");
+		if (this.chatters.length === 0 ||
+			this.chatters.length === this.activeChatters.length) {
 			return false;
 		}
 

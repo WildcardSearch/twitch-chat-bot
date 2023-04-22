@@ -106,25 +106,7 @@ class Permissions_TwitchChatBotModule extends TwitchChatBotModule
 			allPerms[p.level] = p;
 		}
 
-		permLevelList.sort((a, b) =>{
-			let ca = parseInt(a, 10) || 0;
-			let cb = parseInt(b, 10) || 0;
-
-			switch(true) {
-				case ca > cb:
-					return 1;
-
-					break;
-				case ca === cb:
-					return 0;
-
-					break;
-				case ca < cb:
-					return -1;
-
-					break;
-			}
-		});
+		permLevelList.sort((a, b) => a - b);
 
 		for (const l of permLevelList) {
 			let p = allPerms[l];
@@ -153,12 +135,23 @@ class Permissions_TwitchChatBotModule extends TwitchChatBotModule
 	 */
 	checkPermissions(cmd, options)
 	{
-		if (typeof cmd.permissionLevel === "undefined" ||
-			cmd.permissionLevel <= this.permMap["PERMISSIONS_ALL"]) {
+		let commands = this.bot.getGlobal("commands");
+
+		if (typeof commands[cmd] !== "object" ||
+			commands[cmd] === null) {
+			this.errorHandler.warn("ERROR_PERMISSIONS_CHECK_PERMISSIONS_NO_DATA", cmd, options);
+
+			return;
+		}
+
+		let permissionLevel = commands[cmd].permissionLevel;
+
+		if (typeof permissionLevel === "undefined" ||
+			permissionLevel <= this.permMap["PERMISSIONS_ALL"]) {
 			return true;
 		}
 
-		return this.getUserPermissionLevel(options) >= cmd.permissionLevel;
+		return this.getUserPermissionLevel(options) >= permissionLevel;
 	}
 
 	/**

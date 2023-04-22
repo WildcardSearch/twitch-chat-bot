@@ -11,13 +11,18 @@ const {
 
 const TwitchChatBotModule = require("../../lib/twitch-chat-bot-module.js");
 
+const {
+	errorCategories, errorCodes, warningCodes,
+} = require("./error-codes.js");
+
 
 class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 {
 	id = "timer";
 
 	/**
-	 * register database fields
+	 * register database fields &
+	 * error codes
 	 *
 	 * @return void
 	 */
@@ -33,18 +38,10 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 			key: "lastlive",
 			type: "number",
 		}]);
-	}
 
-	/**
-	 * check and return installation status
-	 *
-	 * @return void
-	 */
-	isInstalled()
-	{
-		return this.db.fieldExists("live") === true &&
-			this.db.fieldExists("livetime") === true &&
-			this.db.fieldExists("lastlive") === true;
+		this.errorHandler.registerCategories(errorCategories);
+		this.errorHandler.registerWarnings(warningCodes);
+		this.errorHandler.registerCodes(errorCodes);
 	}
 
 	/**
@@ -198,71 +195,71 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 		}
 
 		switch(typeof lt) {
-			case "string":
-				switch(lt) {
-					case "top":
-						rDate.setHours(hrs+1);
-						rDate.setMinutes(0);
-						rDate.setSeconds(0);
-						rDate.setMilliseconds(0);
-						break;
-					case "bottom":
-						if (mins > 30) {
-							rDate.setHours(hrs+1);
+		case "string":
+			switch(lt) {
+			case "top":
+				rDate.setHours(hrs+1);
+				rDate.setMinutes(0);
+				rDate.setSeconds(0);
+				rDate.setMilliseconds(0);
+				break;
+			case "bottom":
+				if (mins > 30) {
+					rDate.setHours(hrs+1);
+					rDate.setMinutes(30);
+				} else {
+					rDate.setMinutes(30);
+				}
+
+				rDate.setSeconds(0);
+				rDate.setMilliseconds(0);
+				break;
+			case "nextquarter":
+				if (mins > 45) {
+					rDate.setHours(hrs+1);
+					rDate.setMinutes(0);
+				} else {
+					if (mins > 30) {
+						rDate.setMinutes(45);
+					} else {
+						if (mins > 15) {
 							rDate.setMinutes(30);
 						} else {
-							rDate.setMinutes(30);
+							rDate.setMinutes(15);
 						}
-
-						rDate.setSeconds(0);
-						rDate.setMilliseconds(0);
-						break;
-					case "nextquarter":
-						if (mins > 45) {
-							rDate.setHours(hrs+1);
-							rDate.setMinutes(0);
-						} else {
-							if (mins > 30) {
-								rDate.setMinutes(45);
-							} else {
-								if (mins > 15) {
-									rDate.setMinutes(30);
-								} else {
-									rDate.setMinutes(15);
-								}
-							}
-						}
-						rDate.setSeconds(0);
-						rDate.setMilliseconds(0);
-						break;
+					}
 				}
-
+				rDate.setSeconds(0);
+				rDate.setMilliseconds(0);
 				break;
-			case "number":
-				let wait = parseInt(lt, 10),
-					hoursToAdd = 0;
+			}
 
-				// input is in minutes, so allow for large values
-				while (wait > (60-mins)) {
-					hoursToAdd++;
+			break;
+		case "number":
+			let wait = parseInt(lt, 10),
+				hoursToAdd = 0;
 
-					wait -= (60-mins);
-					mins = 0;
-				}
+			// input is in minutes, so allow for large values
+			while (wait > (60-mins)) {
+				hoursToAdd++;
 
-				if (hoursToAdd > 0) {
-					rDate.setHours(hrs+hoursToAdd);
-				}
+				wait -= (60-mins);
+				mins = 0;
+			}
 
-				if (wait > 0) {
-					rDate.setMinutes(mins+wait);
-				}
+			if (hoursToAdd > 0) {
+				rDate.setHours(hrs+hoursToAdd);
+			}
 
-				break;
-			default:
-				this.bot.log({ error: "setLiveTimeStampFromParams received bad info", arguments });
+			if (wait > 0) {
+				rDate.setMinutes(mins+wait);
+			}
 
-				return;
+			break;
+		default:
+			this.errorHandler.warn("ERROR_TIMER_SET_LIVE_TS_BAD_INFO", arguments);
+
+			return;
 		}
 
 		this.setLiveTimestamp(rDate.getTime());
@@ -280,7 +277,7 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 
 		if (this.live) {
 			timeDescription = formatTimeStamp(Date.now()-this.liveTimestamp);
-			this.bot.sendMessage(`The stream has been live for ${timeDescription.description || "an unknown amount of time."}.`);
+			this.bot.sendMessage(`The stream has been live for ${timeDescription.description || "an unknown amount of time"}.`);
 
 			return;
 		}
@@ -292,7 +289,7 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 		}
 
 		timeDescription = formatTimeStamp(this.liveTimestamp-Date.now());
-		this.bot.sendMessage(`The stream will go live in ${timeDescription.description}.`);
+		this.bot.sendMessage(`The stream will go live in ${timeDescription.description || "an unknown amount of time"}.`);
 	}
 
 	/**

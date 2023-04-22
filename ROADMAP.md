@@ -2,32 +2,38 @@ This document is meant to provide a prioritized list of tasks I wish to complete
 
 ✅ 0.1.0 — Removed dependency upon `request` (`node-streamelements` replaced with custom drop-in.)
 
-# 0.2.0 — Error System
+✅ 0.2.0 — Error System revamped. Simple, extensible, and practical.
 
-Current system is for internal errors without possibility of extension.
-
-- create a new module to handle processing errors and error codes
-- have current internal error code data reformatted
-- process internal error code data
-- provide access for modules to register error categories and codes
-- set up for easy production of docs
-
-# 0.3.0 — Currency Update
-
-- Add StreamLabs currency support
-- Add internal, custom currency support
+# 0.3.0 `tmi.js`
+- expand available events
+- document available resources in Wiki
+- research services provided and exploit as many as are practical
+- provide access to customize tmi.js through initialization options
 
 # Other (To Be Scheduled)
 
 Before 1.0, I'd like to see many other features and changes to this project. Usually, that means that new tasks will be added to this list; some might be abandoned; others will get put off, while others may be prioritized more highly. Like the project, itself, this document is a work in progress.
 
+## Currency
+
+- Add StreamLabs currency support
+- Add internal, custom currency support
+
 ## Internationalization
 - add language system to allow translations
 
-## `tmi.js`
-- disentangle `tmi.js` from the core
-- create public facing interface and allow continued support for `tmi.js` while allowing for other implentations, including a possible custom build
+## Self-Documentation
 
-## Await Feedback
+Allow for every appropriate element to be documented automatically.
+
+✅ commands
+
+⬜ Error Codes
+
+⬜ Event Priority
+
+⬜ Event List
+
+# Feedback
 
 You may provide casual feedback by replying to release discussions. If you would like to suggest improvements, please follow the guidance in [CONTRIBUTING.md](https://github.com/WildcardSearch/twitch-chat-bot/blob/main/CONTRIBUTING.md).

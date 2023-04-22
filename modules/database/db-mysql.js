@@ -8,11 +8,8 @@
 const mysql = require('mysql');
 
 const {
-	ERROR_DB_MYSQL_CONNECT_FAIL, ERROR_DB_MYSQL_INSTALL_TABLE_FAIL,
-	ERROR_DB_MYSQL_READ_DATA_FAIL, ERROR_DB_MYSQL_INSERT_DATA_FAIL, ERROR_DB_MYSQL_READ_ID_FAIL,
-	ERROR_DB_MYSQL_READ_TABLES_FAIL, ERROR_DB_MYSQL_STORE_TABLES_FAIL, ERROR_DB_MYSQL_STORE_FIELDS_FAIL,
-	ERROR_DB_MYSQL_READ_FIELDS_FAIL, ERROR_DB_MYSQL_INSTALL_FIELD_FAIL,
-} = require("../../data/error-codes.js");
+	errorCategories, errorCodes, warningCodes,
+} = require("./error-codes-mysql.js");
 
 const DB_Base_TwitchChatBotModule = require("./db-base.js");
 
@@ -32,6 +29,10 @@ class DB_MYSQL_TwitchChatBotModule extends DB_Base_TwitchChatBotModule
 	 */
 	connect()
 	{
+		this.errorHandler.registerCategories(errorCategories);
+		this.errorHandler.registerCodes(warningCodes);
+		this.errorHandler.registerCodes(errorCodes);
+
 		this.fields = {};
 		this.fieldList = [];
 
@@ -61,7 +62,7 @@ class DB_MYSQL_TwitchChatBotModule extends DB_Base_TwitchChatBotModule
 	checkConnection(error)
 	{
 		if (error) {
-			this.bot.error(ERROR_DB_MYSQL_CONNECT_FAIL, "Couldn't connect to MySQL", error);
+			this.errorHandler.throwError("ERROR_DB_MYSQL_CONNECT_FAIL");
 			this.onConnectionFail(error);
 
 			return;
@@ -84,7 +85,7 @@ class DB_MYSQL_TwitchChatBotModule extends DB_Base_TwitchChatBotModule
 	checkTableInstall(err, result)
 	{
 		if (err) {
-			this.bot.error(ERROR_DB_MYSQL_INSTALL_TABLE_FAIL, err);
+			this.errorHandler.throwError("ERROR_DB_MYSQL_INSTALL_TABLE_FAIL");
 
 			return;
 		}
@@ -154,7 +155,7 @@ class DB_MYSQL_TwitchChatBotModule extends DB_Base_TwitchChatBotModule
 
 		this.simpleSelect("*", `lastlive > ${n}`, { callback: function checkForCrash(err, result) {
 			if (err) {
-				this.bot.error(ERROR_DB_MYSQL_READ_DATA_FAIL, err);
+				this.errorHandler.throwError("ERROR_DB_MYSQL_READ_DATA_FAIL");
 
 				return;
 			}
@@ -196,7 +197,7 @@ class DB_MYSQL_TwitchChatBotModule extends DB_Base_TwitchChatBotModule
 
 		this.connection.query(`INSERT INTO ${this.table} ${fields};`, function (err, result) {
 			if (err) {
-				this.bot.error(ERROR_DB_MYSQL_INSERT_DATA_FAIL, err);
+				this.errorHandler.throwError("ERROR_DB_MYSQL_INSERT_DATA_FAIL");
 
 				onFail(err);
 
@@ -208,7 +209,7 @@ class DB_MYSQL_TwitchChatBotModule extends DB_Base_TwitchChatBotModule
 			if (typeof result !== "object" ||
 				typeof result.insertId !== "number" ||
 				result.insertId <= 0) {
-				this.bot.error(ERROR_DB_MYSQL_READ_ID_FAIL, result);
+				this.errorHandler.throwError("ERROR_DB_MYSQL_READ_ID_FAIL");
 
 				onFail(err);
 
@@ -335,7 +336,7 @@ class DB_MYSQL_TwitchChatBotModule extends DB_Base_TwitchChatBotModule
 
 		this.connection.query("SHOW TABLES", (err, result) => {
 			if (err) {
-				this.bot.error(ERROR_DB_MYSQL_READ_TABLES_FAIL, err);
+				this.errorHandler.throwError("ERROR_DB_MYSQL_READ_TABLES_FAIL");
 
 				return;
 			}
@@ -379,7 +380,7 @@ class DB_MYSQL_TwitchChatBotModule extends DB_Base_TwitchChatBotModule
 		if (typeof result !== "object" ||
 			Array.isArray(result) !== true ||
 			result.length === 0) {
-			this.bot.error(result);
+			this.errorHandler.throwError("ERROR_DB_MYSQL_READ_TABLES_FAIL");
 			return;
 		}
 
@@ -402,7 +403,7 @@ class DB_MYSQL_TwitchChatBotModule extends DB_Base_TwitchChatBotModule
 	storeFields(err, result)
 	{
 		if (err) {
-			this.bot.error(ERROR_DB_MYSQL_STORE_FIELDS_FAIL, err);
+			this.errorHandler.throwError("ERROR_DB_MYSQL_STORE_FIELDS_FAIL");
 
 			return;
 		}
@@ -410,7 +411,7 @@ class DB_MYSQL_TwitchChatBotModule extends DB_Base_TwitchChatBotModule
 		if (typeof result !== "object" ||
 			Array.isArray(result) !== true ||
 			result.length === 0) {
-			this.bot.error(ERROR_DB_MYSQL_READ_FIELDS_FAIL, result);
+			this.errorHandler.throwError("ERROR_DB_MYSQL_READ_FIELDS_FAIL");
 
 			return;
 		}
@@ -437,7 +438,7 @@ class DB_MYSQL_TwitchChatBotModule extends DB_Base_TwitchChatBotModule
 	{
 		this.connection.query("CREATE TABLE `"+this.table+"` (`id` int(10) NOT NULL AUTO_INCREMENT, `timestamp` bigint(20) DEFAULT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", (err, result) => {
 			if (err) {
-				this.bot.error(ERROR_DB_MYSQL_INSTALL_TABLE_FAIL, {
+				this.errorHandler.throwError("ERROR_DB_MYSQL_INSTALL_TABLE_FAIL", {
 					message: `error adding table '${this.table}' to '${this.options.database.credentials.database}'`,
 					error: err,
 				});
@@ -522,7 +523,7 @@ class DB_MYSQL_TwitchChatBotModule extends DB_Base_TwitchChatBotModule
 
 		this.connection.query(`ALTER TABLE ${this.table} ADD COLUMN ${name} ${def}${defaultValue}`, (err, result) => {
 			if (err) {
-				this.bot.error(ERROR_DB_MYSQL_INSTALL_FIELD_FAIL, {
+				this.errorHandler.throwError("ERROR_DB_MYSQL_INSTALL_FIELD_FAIL", {
 					message: `error adding column '${name}' to '${this.table}'`,
 					err,
 				});

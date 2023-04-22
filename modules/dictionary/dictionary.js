@@ -11,10 +11,26 @@ const {
 
 const TwitchChatBotModule = require("../../lib/twitch-chat-bot-module.js");
 
+const {
+	errorCategories, errorCodes, warningCodes,
+} = require("./error-codes.js");
+
 
 class Dictionary_TwitchChatBotModule extends TwitchChatBotModule
 {
 	id = "dictionary";
+
+	/**
+	 * install module elements
+	 *
+	 * @return void
+	 */
+	install()
+	{
+		this.errorHandler.registerCategories(errorCategories);
+		this.errorHandler.registerWarnings(warningCodes);
+		this.errorHandler.registerCodes(errorCodes);
+	}
 
 	/**
 	 * @return void
@@ -64,6 +80,8 @@ class Dictionary_TwitchChatBotModule extends TwitchChatBotModule
 	add(data)
 	{
 		if (typeof data !== "object") {
+			this.errorHandler.warn("ERROR_DICTIONARY_ADD_ENTRIES_BAD_INFO");
+
 			return false;
 		}
 

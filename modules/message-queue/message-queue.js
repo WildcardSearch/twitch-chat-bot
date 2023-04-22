@@ -7,10 +7,26 @@
 
 const TwitchChatBotModule = require("../../lib/twitch-chat-bot-module.js");
 
+const {
+	errorCategories, errorCodes, warningCodes,
+} = require("./error-codes.js");
+
 
 class MessageQueue_TwitchChatBotModule extends TwitchChatBotModule
 {
 	id = "message-queue";
+
+	/**
+	 * install module elements
+	 *
+	 * @return void
+	 */
+	install()
+	{
+		this.errorHandler.registerCategories(errorCategories);
+		this.errorHandler.registerWarnings(warningCodes);
+		this.errorHandler.registerCodes(errorCodes);
+	}
 
 	/**
 	 * @return void
@@ -76,7 +92,11 @@ class MessageQueue_TwitchChatBotModule extends TwitchChatBotModule
 
 		if (typeof text !== "string" ||
 			text.length === 0) {
-			this.bot.log( { err: "empty message sent to queue", text: text, options: options } );
+			this.errorHandler.warn("ERROR_MESSAGE_QUEUE_QUEUE_MESSAGE_EMPTY_MESSAGE", {
+				text: text,
+				typeOfText: typeof text,
+				options: options,
+			});
 
 			return;
 		}
@@ -209,7 +229,7 @@ class MessageQueue_TwitchChatBotModule extends TwitchChatBotModule
 		if (typeof message !== "object" ||
 			typeof message.text !== "string" ||
 			message.text.length === 0) {
-			this.bot.log("Invalid message sent!");
+			this.errorHandler.warn("ERROR_MESSAGE_QUEUE_SEND_NEXT_EMPTY_MESSAGE");
 		} else {
 			this.output(message);
 			this.lastMessageTime = Date.now();
