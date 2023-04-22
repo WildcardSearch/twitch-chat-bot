@@ -153,12 +153,23 @@ class Permissions_TwitchChatBotModule extends TwitchChatBotModule
 	 */
 	checkPermissions(cmd, options)
 	{
-		if (typeof cmd.permissionLevel === "undefined" ||
-			cmd.permissionLevel <= this.permMap["PERMISSIONS_ALL"]) {
+		let commands = this.bot.getGlobal("commands");
+
+		if (typeof commands[cmd] !== "object" ||
+			commands[cmd] === null) {
+			this.bot.log("fail");
+
+			return;
+		}
+
+		let permissionLevel = commands[cmd].permissionLevel;
+
+		if (typeof permissionLevel === "undefined" ||
+			permissionLevel <= this.permMap["PERMISSIONS_ALL"]) {
 			return true;
 		}
 
-		return this.getUserPermissionLevel(options) >= cmd.permissionLevel;
+		return this.getUserPermissionLevel(options) >= permissionLevel;
 	}
 
 	/**
