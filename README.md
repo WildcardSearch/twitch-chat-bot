@@ -1,4 +1,4 @@
-# twitch-chat-bot 0.2.1
+# twitch-chat-bot 0.2.2
 *a highly customizable base Twitch chat bot to build on*
 
 [![npm version](https://badge.fury.io/js/twitch-chat-bot.svg)](https://badge.fury.io/js/twitch-chat-bot)
