@@ -1,6 +1,6 @@
 {
   "name": "twitch-chat-bot",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "an attempt to provide a generic, but highly-configurable platform for developers intending to create Twitch chat bots in Node.js",
   "main": "index.js",
   "directories": {

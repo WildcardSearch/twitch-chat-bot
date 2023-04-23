@@ -89,12 +89,12 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 
 		if (this.bot.streamData.live ||
 			msTillLive <= 0) {
-			this.isLive(true);
+			this.forceLive();
 
 			return;
 		}
 
-		this.liveTimer = setTimeout(this.onLive.bind(this), msTillLive);
+		this.liveTimer = setTimeout(this.goLive.bind(this), msTillLive);
 	}
 
 	/**
@@ -116,7 +116,7 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 		if (options.msgPieces.length === 1 ||
 			typeof options.msgPieces[1] !== "string" ||
 			options.msgPieces[1].length === 0) {
-			this.isLive(true);
+			this.forceLive();
 
 			return;
 		}
@@ -125,7 +125,7 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 
 		let msTillLive = this.liveTimestamp-now;
 
-		this.liveTimer = setTimeout(this.onLive.bind(this), msTillLive);
+		this.liveTimer = setTimeout(this.goLive.bind(this), msTillLive);
 
 		this.db.updateStreamInfo({
 			live: 0,
@@ -154,7 +154,7 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 
 		let msTillLive = this.liveTimestamp-now;
 
-		this.liveTimer = setTimeout(this.onLive.bind(this), msTillLive);
+		this.liveTimer = setTimeout(this.goLive.bind(this), msTillLive);
 
 		this.db.updateStreamInfo({
 			live: 0,
@@ -293,6 +293,18 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 	}
 
 	/**
+	 * for crash recovery; force stream into live mode
+	 *
+	 * @param  Boolean
+	 * @return void
+	 */
+	forceLive()
+	{
+		this.clearLiveTimer();
+		this.goLive();
+	}
+
+	/**
 	 * getter for live state
 	 *
 	 * @param  Boolean
@@ -313,14 +325,22 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 	 *
 	 * @return void
 	 */
-	onLive()
+	goLive()
 	{
-		this.live = true;
-
-		this.db.updateStreamInfo({
+		let data = {
 			live: true,
 			lastlive: Date.now(),
-		});
+		};
+
+		if (typeof this.bot.streamData.livetime === "undefined" ||
+			isNaN(parseInt(this.bot.streamData.livetime, 10)) == true ||
+			parseInt(this.bot.streamData.livetime, 10) <= 0) {
+			data.livetime = Date.now();
+		}
+
+		this.live = true;
+
+		this.db.updateStreamInfo(data);
 
 		this.bot.fireEvent("live");
 
