@@ -335,7 +335,7 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 		if (typeof this.bot.streamData.livetime === "undefined" ||
 			isNaN(parseInt(this.bot.streamData.livetime, 10)) == true ||
 			parseInt(this.bot.streamData.livetime, 10) <= 0) {
-			data.livetime = Date.now();
+			this.liveTimestamp = data.livetime = Date.now();
 		}
 
 		this.live = true;
