@@ -190,6 +190,7 @@ class UserTracker_TwitchChatBotModule extends TwitchChatBotModule
 		let users = Object.keys(this.chatters);
 
 		if (typeof exclude === "object" &&
+			Array.isArray(exclude) === true &&
 			exclude.length > 0) {
 			users = users.filter(n => exclude.includes(n) === false);
 		}
@@ -215,6 +216,7 @@ class UserTracker_TwitchChatBotModule extends TwitchChatBotModule
 		let users = Object.keys(this.activeChatters);
 
 		if (typeof exclude === "object" &&
+			Array.isArray(exclude) === true &&
 			exclude.length > 0) {
 			users = users.filter(n => exclude.includes(n) === false);
 		}
@@ -240,6 +242,7 @@ class UserTracker_TwitchChatBotModule extends TwitchChatBotModule
 		let users = Object.keys(this.getInactiveChatters());
 
 		if (typeof exclude === "object" &&
+			Array.isArray(exclude) === true &&
 			exclude.length > 0) {
 			users = users.filter(n => exclude.includes(n) === false);
 		}
