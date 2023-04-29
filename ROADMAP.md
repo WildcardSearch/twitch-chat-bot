@@ -4,7 +4,15 @@ This document is meant to provide a prioritized list of tasks I wish to complete
 
 ✅ 0.2.0 — Error System revamped. Simple, extensible, and practical.
 
-# 0.3.0 `tmi.js`
+# 0.3.0 - Services
+
+The intention is to separate modules from service integrations like the database and currency systems. These "modules" depend upon outside service integrations, and should be separated from the internal and external modules.
+
+- move integrations to a separate folder
+- rename classes appropriately
+- look into load order and priority options
+
+# 0.4.0 `tmi.js`
 - expand available events
 - document available resources in Wiki
 - research services provided and exploit as many as are practical
