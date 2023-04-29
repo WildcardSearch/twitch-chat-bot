@@ -13,6 +13,7 @@ The intention is to separate modules from service integrations like the database
 - look into load order and priority options
 
 # 0.4.0 `tmi.js`
+
 - expand available events
 - document available resources in Wiki
 - research services provided and exploit as many as are practical
@@ -28,6 +29,7 @@ Before 1.0, I'd like to see many other features and changes to this project. Usu
 - Add internal, custom currency support
 
 ## Internationalization
+
 - add language system to allow translations
 
 ## Self-Documentation
