@@ -5,16 +5,15 @@
  */
 
 
+const TwitchChatBotService = require("../service.js");
+
 const {
 	errorCategories, errorCodes, warningCodes,
 } = require("./error-codes.js");
 
 
-class CurrencySystem_TwitchChatBotModule {
-	valid = false;
-
-	bot = null;
-	errorHandler = null;
+class TwitchChatBotCurrencyService extends TwitchChatBotService {
+	id = "currency";
 
 	/**
 	 * @param  TwitchChatBot
@@ -22,8 +21,7 @@ class CurrencySystem_TwitchChatBotModule {
 	 */
 	constructor(b)
 	{
-		this.bot = b;
-		this.errorHandler = this.bot.errorHandler;
+		super(b);
 
 		this.errorHandler.registerCategories(errorCategories);
 		this.errorHandler.registerWarnings(warningCodes);
@@ -159,4 +157,4 @@ class CurrencySystem_TwitchChatBotModule {
 	}
 }
 
-module.exports = CurrencySystem_TwitchChatBotModule;
+module.exports = TwitchChatBotCurrencyService;

@@ -11,16 +11,13 @@ const {
 	errorCategories, errorCodes, warningCodes,
 } = require("./error-codes-mysql.js");
 
-const DB_Base_TwitchChatBotModule = require("./db-base.js");
+const TwitchChatBotDatabaseService = require("./service.js");
 
 
-class DB_MYSQL_TwitchChatBotModule extends DB_Base_TwitchChatBotModule
-{
-	id = "MYSQL";
-	valid = false;
+class MYSQL_DatabaseIntegration extends
+	TwitchChatBotDatabaseService {
 
-
-	/* connect */
+	integrationId = "MYSQL";
 
 	/**
 	 * connect to the db
@@ -783,4 +780,4 @@ class DB_MYSQL_TwitchChatBotModule extends DB_Base_TwitchChatBotModule
 }
 
 
-module.exports = DB_MYSQL_TwitchChatBotModule;
+module.exports = MYSQL_DatabaseIntegration;

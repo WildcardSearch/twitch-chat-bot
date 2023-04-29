@@ -5,7 +5,7 @@
  */
 
 
-const CurrencySystem_TwitchChatBotModule = require("./base-currency-system.js");
+const TwitchChatBotCurrencyService = require("./service.js");
 
 const StreamElements = require('nodejs-streamelements');
 
@@ -13,9 +13,10 @@ const StreamElements = require('nodejs-streamelements');
 const SE_ERROR_USER_NOT_FOUND = 1;
 
 
-class StreamElements_CurrencySystem
-	extends CurrencySystem_TwitchChatBotModule {
-	se = null;
+class StreamElementsCurrencyIntegration	extends
+	TwitchChatBotCurrencyService {
+
+	integrationId = "streamelements";
 
 	/**
 	 * @param  TwitchChatBotModule
@@ -121,4 +122,4 @@ class StreamElements_CurrencySystem
 }
 
 
-module.exports = StreamElements_CurrencySystem;
+module.exports = StreamElementsCurrencyIntegration;

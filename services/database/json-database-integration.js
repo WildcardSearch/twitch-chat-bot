@@ -11,16 +11,16 @@ const {
 	readFile, writeFile, copyObject,
 } = require("../../lib/functions.js");
 
-const DB_Base_TwitchChatBotModule = require("./db-base.js");
+const TwitchChatBotDatabaseService = require("./service.js");
 
 
 const ID_LOWEST_VALUE = 100;
 
 
-class DB_JSON_TwitchChatBotModule extends DB_Base_TwitchChatBotModule
-{
-	id = "JSON";
-	valid = false;
+class JSON_DatabaseIntegration extends
+	TwitchChatBotDatabaseService {
+
+	integrationId = "JSON";
 
 	/**
 	 * connect to the db
@@ -227,4 +227,4 @@ class DB_JSON_TwitchChatBotModule extends DB_Base_TwitchChatBotModule
 }
 
 
-module.exports = DB_JSON_TwitchChatBotModule;
+module.exports = JSON_DatabaseIntegration;
