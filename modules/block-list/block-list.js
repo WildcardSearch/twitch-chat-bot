@@ -76,7 +76,10 @@ class BlockList_TwitchChatBotModule extends TwitchChatBotModule
 	{
 		if (typeof user !== "string" ||
 			user.length === 0) {
-			this.errorHandler.warn("ERROR_BLOCK_LIST_ISBLOCKED_BAD_INFO_USERNAME", arguments);
+			this.errorHandler.warn(
+				"ERROR_BLOCK_LIST_ISBLOCKED_BAD_INFO_USERNAME",
+				arguments
+			);
 
 			return false;
 		}

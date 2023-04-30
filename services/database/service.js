@@ -4,21 +4,13 @@
  * Copyright (c) 2020 WildcardSearch
  */
 
+const TwitchChatBotService = require("../service.js");
 
-class DB_Base_TwitchChatBotModule
-{
-	id = null;
 
-	valid = false;
+class TwitchChatBotDatabaseService extends
+	TwitchChatBotService {
 
-	fields = {};
-	fieldList = [];
-
-	bot = null;
-
-	options = null;
-	credentials = null;
-	errorHandler = null;
+	id = "database";
 
 	/**
 	 * @param  TwitchChatBotModule
@@ -27,6 +19,13 @@ class DB_Base_TwitchChatBotModule
 	 */
 	constructor(b, onConnect)
 	{
+		super(b);
+
+		this.fields = {};
+		this.fieldList = [];
+
+		this.credentials = null;
+
 		if (typeof onConnect !== "function") {
 			onConnect = ()=>{};
 		}
@@ -40,9 +39,6 @@ class DB_Base_TwitchChatBotModule
 			return;
 		}
 
-		this.bot = b;
-		this.options = this.bot.options;
-		this.errorHandler = this.bot.errorHandler;
 		this.valid = true;
 
 		this.connect();
@@ -95,4 +91,4 @@ class DB_Base_TwitchChatBotModule
 }
 
 
-module.exports = DB_Base_TwitchChatBotModule;
+module.exports = TwitchChatBotDatabaseService;

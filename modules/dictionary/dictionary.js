@@ -37,7 +37,7 @@ class Dictionary_TwitchChatBotModule extends TwitchChatBotModule
 	 */
 	init()
 	{
-		this._d = {};
+		this.data = {};
 	}
 
 	/**
@@ -49,15 +49,15 @@ class Dictionary_TwitchChatBotModule extends TwitchChatBotModule
 	 */
 	get(id, all)
 	{
-		if (typeof this._d[id] !== "object") {
+		if (typeof this.data[id] !== "object") {
 			return false;
 		}
 
 		if (all === true) {
-			return this._d[id];
+			return this.data[id];
 		}
 
-		return arnd(this._d[id]);
+		return arnd(this.data[id]);
 	}
 
 	/**
@@ -85,7 +85,7 @@ class Dictionary_TwitchChatBotModule extends TwitchChatBotModule
 			return false;
 		}
 
-		this._d = { ...this._d, ...data };
+		this.data = { ...this.data, ...data };
 	}
 }
 

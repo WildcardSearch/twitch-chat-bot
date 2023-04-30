@@ -12,13 +12,11 @@ const errorCategories = [{
 
 const errorCodes = [];
 
-const warningCodes = [
-	{
-		key: "ERROR_BLOCK_LIST_ISBLOCKED_BAD_INFO_USERNAME",
-		message: "failed to do block check; missing/invalid username",
-		category: "block-list",
-	},
-];
+const warningCodes = [{
+	key: "ERROR_BLOCK_LIST_ISBLOCKED_BAD_INFO_USERNAME",
+	message: "failed to do block check; missing/invalid username",
+	category: "block-list",
+}];
 
 
 module.exports = {

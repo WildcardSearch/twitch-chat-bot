@@ -60,8 +60,14 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 		this.blockedUsers = [];
 		this.blockInfo = {};
 
-		this.bot.registerGlobal( { key: "commands", get: this.getAllCommands.bind(this) } );
-		this.bot.registerGlobal( { key: "commandList", get: this.getCommandList.bind(this) } );
+		this.bot.registerGlobal({
+			key: "commands",
+			get: this.getAllCommands.bind(this)
+		});
+		this.bot.registerGlobal({
+			key: "commandList",
+			get: this.getCommandList.bind(this)
+		});
 
 		this.addCommand([{
 			key: "enable",
@@ -182,7 +188,10 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 	addCommand(command)
 	{
 		if (typeof command === "undefined") {
-			this.errorHandler.warn("ERROR_COMMAND_CENTER_ADD_COMMAND_BAD_INFO", arguments);
+			this.errorHandler.warn(
+				"ERROR_COMMAND_CENTER_ADD_COMMAND_BAD_INFO",
+				arguments
+			);
 
 			return false;
 		}
@@ -198,7 +207,17 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 
 			if (typeof c === "undefined" ||
 				c.length === 0) {
-				this.errorHandler.warn("ERROR_COMMAND_CENTER_ADD_COMMAND_BAD_INFO", arguments);
+				this.errorHandler.warn(
+					"ERROR_COMMAND_CENTER_ADD_COMMAND_BAD_INFO",
+					arguments
+				);
+
+				continue;
+			}
+
+			if (typeof c.parser !== "function" &&
+				(typeof c.textOutput !== "string" || c.textOutput.length === 0)) {
+				this.errorHandler.warn("ERROR_COMMAND_CENTER_ADD_COMMAND_NO_OUTPUT_METHOD");
 
 				continue;
 			}
@@ -208,7 +227,7 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 			if (this.commandList.includes(k) === true) {
 				this.errorHandler.warn("ERROR_COMMAND_CENTER_ADD_COMMAND_DUPLICATE_COMMAND");
 
-				return;
+				continue;
 			}
 
 			// store command
@@ -222,7 +241,10 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 				c.aliases.length > 0) {
 				for (const alias of c.aliases) {
 					if (this.aliasList.includes(alias) === true) {
-						this.errorHandler.warn("ERROR_COMMAND_CENTER_ADD_COMMAND_DUPLICATE_COMMAND_ALIAS", "Alias: "+(alias || "undefined"));
+						this.errorHandler.warn(
+							"ERROR_COMMAND_CENTER_ADD_COMMAND_DUPLICATE_COMMAND_ALIAS",
+							`Alias: ${alias || "undefined"}`
+						);
 
 						continue;
 					}
@@ -237,7 +259,10 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 				c.shortcuts.length > 0) {
 				for (const sc of c.shortcuts) {
 					if (this.shortcutList.includes(sc) === true) {
-						this.errorHandler.warn("ERROR_COMMAND_CENTER_ADD_COMMAND_DUPLICATE_COMMAND_SHORTCUT", "Shortcut: "+(sc || "undefined"));
+						this.errorHandler.warn(
+							"ERROR_COMMAND_CENTER_ADD_COMMAND_DUPLICATE_COMMAND_SHORTCUT",
+							`Shortcut: ${sc || "undefined"}`
+						);
 
 						continue;
 					}
@@ -267,12 +292,25 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 		/* parameter checks */
 
 		if (typeof userstate === "undefined") {
-			this.errorHandler.warn("ERROR_COMMAND_CENTER_PARSE_COMMAND_BAD_INFO", userstate);
+			this.errorHandler.warn("ERROR_COMMAND_CENTER_PARSE_COMMAND_BAD_INFO");
 
 			return false;
 		}
 
 		const lcSender = userstate["display-name"].toLowerCase();
+
+		/* initialize activity slot for user, if necessary */
+		if (typeof this.activity[lcSender] !== "object") {
+			this.activity[lcSender] = {};
+		}
+
+		if (typeof this.activity[lcSender].commands !== "object") {
+			this.activity[lcSender].commands = {};
+		}
+
+		if (typeof this.activity[lcSender].warnings !== "number") {
+			this.activity[lcSender].warnings = 0;
+		}
 
 		if (typeof this.bot.userTracker === "undefined" ||
 			typeof this.bot.userTracker.getRandomChatter === "undefined" ||
@@ -338,58 +376,6 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 			return;
 		}
 
-
-		/* initialize activity slot for user, if necessary */
-		if (typeof this.activity[lcSender] !== "object") {
-			this.activity[lcSender] = {};
-		}
-
-		if (typeof this.activity[lcSender].commands !== "object") {
-			this.activity[lcSender].commands = {};
-		}
-
-		if (typeof this.activity[lcSender].warnings !== "number") {
-			this.activity[lcSender].warnings = 0;
-		}
-
-
-		/* cooldown violation? */
-
-		if (lcSender !== this.bot.channel.toLowerCase() &&
-			userstate.mod !== true &&
-			userstate.vip !== true) {
-			if (typeof this.activity[lcSender].lastCommandTime === "number" &&
-				(Date.now()-this.activity[lcSender].lastCommandTime) < this.options.moderation.globalCooldown) {
-				this.cooldownWarning(userstate["display-name"], cleanCommand, `${userstate["display-name"]}, you are using commands too quickly. Please slow down.`);
-
-				return;
-			}
-
-			if (typeof this.commands[cleanCommand].cooldown === "number" &&
-				this.commands[cleanCommand].cooldown > 0 &&
-				(Date.now()-this.activity[lcSender].commands[cleanCommand]) < this.commands[cleanCommand].cooldown) {
-				this.bot.log(`Passive Block: ${userstate["display-name"]} -> ${cleanCommand}`);
-
-				return;
-			}
-		}
-
-		if (this.blockedUsers.includes(lcSender)) {
-			if ((Date.now()-this.blockInfo[lcSender].timestamp) > this.blockInfo[lcSender].duration*seconds) {
-				this.blockedUsers.splice(this.blockedUsers.indexOf(lcSender), 1);
-				delete this.blockInfo[lcSender];
-
-				this.bot.log(`cooldown violation expires: ${lcSender}`);
-			} else {
-				this.cooldownWarning(userstate["display-name"], cleanCommand, `${userstate["display-name"]}, you are blocked from using commands for using commands too quickly. Please slow down.`);
-
-				this.bot.log(`Blocked ${userstate["display-name"]} from using "!${cleanCommand}" for cooldown violation`);
-
-				return;
-			}
-		}
-
-
 		/* required input missing? */
 
 		if (this.commands[cleanCommand].inputRequired === true &&
@@ -442,20 +428,62 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 			}
 		}
 
+		/* cooldown violation? */
+
+		if (userPermissionLevel < this.options.moderation.cooldownExemptionLevel) {
+			if (typeof this.activity[lcSender].lastCommandTime === "number" &&
+				(Date.now()-this.activity[lcSender].lastCommandTime) < this.options.moderation.globalCooldown) {
+				this.cooldownWarning(userstate["display-name"], cleanCommand, `${userstate["display-name"]}, you are using commands too quickly. Please slow down.`);
+
+				return;
+			}
+
+			if (typeof this.commands[cleanCommand].cooldown === "number" &&
+				this.commands[cleanCommand].cooldown > 0 &&
+				(Date.now()-this.activity[lcSender].commands[cleanCommand]) < this.commands[cleanCommand].cooldown) {
+				this.bot.log(`Passive Block: ${userstate["display-name"]} -> ${cleanCommand}`);
+
+				return;
+			}
+		}
+
+		/* blocked chatter? */
+
+		if (this.blockedUsers.includes(lcSender)) {
+			if ((Date.now()-this.blockInfo[lcSender].timestamp) > this.blockInfo[lcSender].duration*seconds) {
+				this.blockedUsers.splice(this.blockedUsers.indexOf(lcSender), 1);
+				delete this.blockInfo[lcSender];
+
+				this.bot.log(`cooldown violation expires: ${lcSender}`);
+			} else {
+				this.cooldownWarning(userstate["display-name"], cleanCommand, `${userstate["display-name"]}, you are blocked from using commands for using commands too quickly. Please slow down.`);
+
+				this.bot.log(`Blocked ${userstate["display-name"]} from using "!${cleanCommand}" for cooldown violation`);
+
+				return;
+			}
+		}
+
 
 		/* all checks clear: log & proceed */
 
 		this.activity[lcSender].lastCommandTime = Date.now();
 		this.activity[lcSender].commands[cleanCommand] = Date.now();
 
-		if (typeof this.commands[cleanCommand].textOutput !== "undefined" &&
+		if (typeof this.commands[cleanCommand].textOutput === "string" &&
 			this.commands[cleanCommand].textOutput.length > 0) {
 			this.bot.sendMessage(this.commands[cleanCommand].textOutput);
 
 			return;
 		}
 
-		return this.commands[cleanCommand].parser(options);
+		if (typeof this.commands[cleanCommand].parser === "function") {
+			return this.commands[cleanCommand].parser(options);
+		}
+
+		/* no output method */
+
+		this.errorHandler.warn("ERROR_COMMAND_CENTER_PARSE_COMMAND_NO_OUTPUT_METHOD");
 	}
 
 	/**

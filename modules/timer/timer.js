@@ -276,7 +276,7 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 		let timeDescription = "";
 
 		if (this.live) {
-			timeDescription = formatTimeStamp(Date.now()-this.liveTimestamp);
+			timeDescription = formatTimeStamp(Date.now() - this.liveTimestamp);
 			this.bot.sendMessage(`The stream has been live for ${timeDescription.description || "an unknown amount of time"}.`);
 
 			return;
@@ -310,13 +310,8 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 	 * @param  Boolean
 	 * @return void
 	 */
-	isLive(state)
+	isLive()
 	{
-		if (state === true) {
-			this.clearLiveTimer();
-			this.onLive();
-		}
-
 		return this.live;
 	}
 
@@ -373,6 +368,8 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 		}
 
 		clearTimeout(this.liveTimer);
+
+		this.liveTimer = null;
 	}
 }
 

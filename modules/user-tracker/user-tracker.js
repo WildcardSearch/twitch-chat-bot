@@ -16,6 +16,11 @@ class UserTracker_TwitchChatBotModule extends TwitchChatBotModule
 {
 	id = "user-tracker";
 
+	/**
+	 * register database fields
+	 *
+	 * @return void
+	 */
 	install()
 	{
 		this.db.registerField([{
@@ -33,7 +38,6 @@ class UserTracker_TwitchChatBotModule extends TwitchChatBotModule
 	/**
 	 * setup; get stream data; add commands; attach bot events; check users active status
 	 *
-	 * @param  Object
 	 * @return void
 	 */
 	init()
@@ -316,13 +320,13 @@ class UserTracker_TwitchChatBotModule extends TwitchChatBotModule
 		if (typeof this.chatters[name] === "undefined" ||
 			typeof this.chatters[name].firstMessage === "undefined") {
 			return false;
-		} else {
-			return this.chatters[name].firstMessage;
 		}
+
+		return this.chatters[name].firstMessage;
 	}
 
 	/**
-	 * route the command to the proper method
+	 * route the list command to the proper method
 	 *
 	 * @param  Object
 	 * @return void
