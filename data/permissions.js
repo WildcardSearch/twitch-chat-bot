@@ -1,0 +1,17 @@
+/**
+ * twitch-chat-bot
+ *
+ * Copyright (c) 2020 WildcardSearch
+ */
+
+
+const PERMISSIONS_ALL = 0;
+const PERMISSIONS_VIPS = 10;
+const PERMISSIONS_SUBS = 20;
+const PERMISSIONS_MODS = 30;
+const PERMISSIONS_STREAMER = 100;
+
+
+module.exports = {
+	PERMISSIONS_ALL, PERMISSIONS_VIPS, PERMISSIONS_SUBS, PERMISSIONS_MODS, PERMISSIONS_STREAMER,
+};
