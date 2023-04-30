@@ -4,13 +4,7 @@ This document is meant to provide a prioritized list of tasks I wish to complete
 
 ✅ 0.2.0 — Error System revamped. Simple, extensible, and practical.
 
-# 0.3.0 - Services
-
-The intention is to separate modules from service integrations like the database and currency systems. These "modules" depend upon outside service integrations, and should be separated from the internal and external modules.
-
-- move integrations to a separate folder
-- rename classes appropriately
-- look into load order and priority options
+✅ 0.3.0 - Service integrations separated from modules and standardized.
 
 # 0.4.0 `tmi.js`
 
@@ -18,6 +12,11 @@ The intention is to separate modules from service integrations like the database
 - document available resources in Wiki
 - research services provided and exploit as many as are practical
 - provide access to customize tmi.js through initialization options
+
+# 0.5.0 Internationalization ([i18n](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/i18n))
+
+- add language system to allow translations
+- currently looking at [Polyglot.js](https://github.com/airbnb/polyglot.js) as the footprint is minimal and should satisfy this project's simple needs
 
 # Other (To Be Scheduled)
 
@@ -27,10 +26,6 @@ Before 1.0, I'd like to see many other features and changes to this project. Usu
 
 - Add StreamLabs currency support
 - Add internal, custom currency support
-
-## Internationalization
-
-- add language system to allow translations
 
 ## Self-Documentation
 
