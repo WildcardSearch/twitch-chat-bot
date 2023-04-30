@@ -24,6 +24,10 @@ const warningCodes = [
 		message: "failed to add command; unsuitable info",
 		category: "command-center",
 	}, {
+		key: "ERROR_COMMAND_CENTER_ADD_COMMAND_NO_OUTPUT_METHOD",
+		message: "failed to add command; no output method available",
+		category: "command-center",
+	}, {
 		key: "ERROR_COMMAND_CENTER_ADD_COMMAND_DUPLICATE_COMMAND",
 		message: "failed to add command; duplicate key",
 		category: "command-center",

@@ -203,6 +203,13 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 				continue;
 			}
 
+			if (typeof c.parser !== "function" &&
+				(typeof c.textOutput !== "string" || c.textOutput.length === 0)) {
+				this.errorHandler.warn("ERROR_COMMAND_CENTER_ADD_COMMAND_NO_OUTPUT_METHOD");
+
+				continue;
+			}
+
 			let k = c.key;
 
 			if (this.commandList.includes(k) === true) {
