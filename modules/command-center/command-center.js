@@ -443,14 +443,20 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 		this.activity[lcSender].lastCommandTime = Date.now();
 		this.activity[lcSender].commands[cleanCommand] = Date.now();
 
-		if (typeof this.commands[cleanCommand].textOutput !== "undefined" &&
+		if (typeof this.commands[cleanCommand].textOutput === "string" &&
 			this.commands[cleanCommand].textOutput.length > 0) {
 			this.bot.sendMessage(this.commands[cleanCommand].textOutput);
 
 			return;
 		}
 
-		return this.commands[cleanCommand].parser(options);
+		if (typeof this.commands[cleanCommand].parser === "function") {
+			return this.commands[cleanCommand].parser(options);
+		}
+
+		/* no output method */
+
+		this.errorHandler.warn("ERROR_COMMAND_CENTER_PARSE_COMMAND_NO_OUTPUT_METHOD");
 	}
 
 	/**

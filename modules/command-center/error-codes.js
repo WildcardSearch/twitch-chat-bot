@@ -44,6 +44,10 @@ const warningCodes = [
 		message: "failed to parse command; received blank message",
 		category: "command-center",
 	}, {
+		key: "ERROR_COMMAND_CENTER_PARSE_COMMAND_NO_OUTPUT_METHOD",
+		message: "failed to parse command; no output method available",
+		category: "command-center",
+	}, {
 		key: "ERROR_PERMISSIONS_CHECK_PERMISSIONS_NO_DATA",
 		message: "failed to check user permissions; invalid command object received",
 		category: "command-center",
