@@ -310,13 +310,8 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 	 * @param  Boolean
 	 * @return void
 	 */
-	isLive(state)
+	isLive()
 	{
-		if (state === true) {
-			this.clearLiveTimer();
-			this.onLive();
-		}
-
 		return this.live;
 	}
 
@@ -373,6 +368,8 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 		}
 
 		clearTimeout(this.liveTimer);
+
+		this.liveTimer = null;
 	}
 }
 
