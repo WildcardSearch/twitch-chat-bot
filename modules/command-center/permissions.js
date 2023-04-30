@@ -5,11 +5,9 @@
  */
 
 
-const PERMISSIONS_ALL = 0;
-const PERMISSIONS_VIPS = 10;
-const PERMISSIONS_SUBS = 20;
-const PERMISSIONS_MODS = 30;
-const PERMISSIONS_STREAMER = 100;
+const {
+	PERMISSIONS_ALL, PERMISSIONS_VIPS, PERMISSIONS_SUBS, PERMISSIONS_MODS, PERMISSIONS_STREAMER,
+} = require("../../data/permissions.js");
 
 const TwitchChatBotModule = require("../../lib/twitch-chat-bot-module.js");
 
