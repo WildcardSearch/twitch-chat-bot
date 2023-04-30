@@ -215,7 +215,7 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 			if (this.commandList.includes(k) === true) {
 				this.errorHandler.warn("ERROR_COMMAND_CENTER_ADD_COMMAND_DUPLICATE_COMMAND");
 
-				return;
+				continue;
 			}
 
 			// store command
