@@ -274,6 +274,19 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 
 		const lcSender = userstate["display-name"].toLowerCase();
 
+		/* initialize activity slot for user, if necessary */
+		if (typeof this.activity[lcSender] !== "object") {
+			this.activity[lcSender] = {};
+		}
+
+		if (typeof this.activity[lcSender].commands !== "object") {
+			this.activity[lcSender].commands = {};
+		}
+
+		if (typeof this.activity[lcSender].warnings !== "number") {
+			this.activity[lcSender].warnings = 0;
+		}
+
 		if (typeof this.bot.userTracker === "undefined" ||
 			typeof this.bot.userTracker.getRandomChatter === "undefined" ||
 			typeof this.bot.userTracker.getRandomActiveChatter === "undefined") {
@@ -338,58 +351,6 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 			return;
 		}
 
-
-		/* initialize activity slot for user, if necessary */
-		if (typeof this.activity[lcSender] !== "object") {
-			this.activity[lcSender] = {};
-		}
-
-		if (typeof this.activity[lcSender].commands !== "object") {
-			this.activity[lcSender].commands = {};
-		}
-
-		if (typeof this.activity[lcSender].warnings !== "number") {
-			this.activity[lcSender].warnings = 0;
-		}
-
-
-		/* cooldown violation? */
-
-		if (lcSender !== this.bot.channel.toLowerCase() &&
-			userstate.mod !== true &&
-			userstate.vip !== true) {
-			if (typeof this.activity[lcSender].lastCommandTime === "number" &&
-				(Date.now()-this.activity[lcSender].lastCommandTime) < this.options.moderation.globalCooldown) {
-				this.cooldownWarning(userstate["display-name"], cleanCommand, `${userstate["display-name"]}, you are using commands too quickly. Please slow down.`);
-
-				return;
-			}
-
-			if (typeof this.commands[cleanCommand].cooldown === "number" &&
-				this.commands[cleanCommand].cooldown > 0 &&
-				(Date.now()-this.activity[lcSender].commands[cleanCommand]) < this.commands[cleanCommand].cooldown) {
-				this.bot.log(`Passive Block: ${userstate["display-name"]} -> ${cleanCommand}`);
-
-				return;
-			}
-		}
-
-		if (this.blockedUsers.includes(lcSender)) {
-			if ((Date.now()-this.blockInfo[lcSender].timestamp) > this.blockInfo[lcSender].duration*seconds) {
-				this.blockedUsers.splice(this.blockedUsers.indexOf(lcSender), 1);
-				delete this.blockInfo[lcSender];
-
-				this.bot.log(`cooldown violation expires: ${lcSender}`);
-			} else {
-				this.cooldownWarning(userstate["display-name"], cleanCommand, `${userstate["display-name"]}, you are blocked from using commands for using commands too quickly. Please slow down.`);
-
-				this.bot.log(`Blocked ${userstate["display-name"]} from using "!${cleanCommand}" for cooldown violation`);
-
-				return;
-			}
-		}
-
-
 		/* required input missing? */
 
 		if (this.commands[cleanCommand].inputRequired === true &&
@@ -437,6 +398,40 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 
 			if (permitted !== true) {
 				this.bot.log(`Permission denied: ${lcSender} -> "${message}"`);
+
+				return;
+			}
+		}
+
+		/* cooldown violation? */
+
+		if (userPermissionLevel < this.options.moderation.cooldownExemptionLevel) {
+			if (typeof this.activity[lcSender].lastCommandTime === "number" &&
+				(Date.now()-this.activity[lcSender].lastCommandTime) < this.options.moderation.globalCooldown) {
+				this.cooldownWarning(userstate["display-name"], cleanCommand, `${userstate["display-name"]}, you are using commands too quickly. Please slow down.`);
+
+				return;
+			}
+
+			if (typeof this.commands[cleanCommand].cooldown === "number" &&
+				this.commands[cleanCommand].cooldown > 0 &&
+				(Date.now()-this.activity[lcSender].commands[cleanCommand]) < this.commands[cleanCommand].cooldown) {
+				this.bot.log(`Passive Block: ${userstate["display-name"]} -> ${cleanCommand}`);
+
+				return;
+			}
+		}
+
+		if (this.blockedUsers.includes(lcSender)) {
+			if ((Date.now()-this.blockInfo[lcSender].timestamp) > this.blockInfo[lcSender].duration*seconds) {
+				this.blockedUsers.splice(this.blockedUsers.indexOf(lcSender), 1);
+				delete this.blockInfo[lcSender];
+
+				this.bot.log(`cooldown violation expires: ${lcSender}`);
+			} else {
+				this.cooldownWarning(userstate["display-name"], cleanCommand, `${userstate["display-name"]}, you are blocked from using commands for using commands too quickly. Please slow down.`);
+
+				this.bot.log(`Blocked ${userstate["display-name"]} from using "!${cleanCommand}" for cooldown violation`);
 
 				return;
 			}
