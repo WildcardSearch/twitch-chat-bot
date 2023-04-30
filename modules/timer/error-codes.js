@@ -12,13 +12,11 @@ const errorCategories = [{
 
 const errorCodes = [];
 
-const warningCodes = [
-	{
-		key: "ERROR_TIMER_SET_LIVE_TS_BAD_INFO",
-		message: "failed to queue message; setLiveTimeStampFromParams received bad info",
-		category: "message-queue",
-	},
-];
+const warningCodes = [{
+	key: "ERROR_TIMER_SET_LIVE_TS_BAD_INFO",
+	message: "failed to queue message; setLiveTimeStampFromParams received bad info",
+	category: "message-queue",
+}];
 
 
 module.exports = {

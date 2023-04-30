@@ -60,8 +60,14 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 		this.blockedUsers = [];
 		this.blockInfo = {};
 
-		this.bot.registerGlobal( { key: "commands", get: this.getAllCommands.bind(this) } );
-		this.bot.registerGlobal( { key: "commandList", get: this.getCommandList.bind(this) } );
+		this.bot.registerGlobal({
+			key: "commands",
+			get: this.getAllCommands.bind(this)
+		});
+		this.bot.registerGlobal({
+			key: "commandList",
+			get: this.getCommandList.bind(this)
+		});
 
 		this.addCommand([{
 			key: "enable",
@@ -182,7 +188,10 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 	addCommand(command)
 	{
 		if (typeof command === "undefined") {
-			this.errorHandler.warn("ERROR_COMMAND_CENTER_ADD_COMMAND_BAD_INFO", arguments);
+			this.errorHandler.warn(
+				"ERROR_COMMAND_CENTER_ADD_COMMAND_BAD_INFO",
+				arguments
+			);
 
 			return false;
 		}
@@ -198,7 +207,10 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 
 			if (typeof c === "undefined" ||
 				c.length === 0) {
-				this.errorHandler.warn("ERROR_COMMAND_CENTER_ADD_COMMAND_BAD_INFO", arguments);
+				this.errorHandler.warn(
+					"ERROR_COMMAND_CENTER_ADD_COMMAND_BAD_INFO",
+					arguments
+				);
 
 				continue;
 			}
@@ -229,7 +241,10 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 				c.aliases.length > 0) {
 				for (const alias of c.aliases) {
 					if (this.aliasList.includes(alias) === true) {
-						this.errorHandler.warn("ERROR_COMMAND_CENTER_ADD_COMMAND_DUPLICATE_COMMAND_ALIAS", "Alias: "+(alias || "undefined"));
+						this.errorHandler.warn(
+							"ERROR_COMMAND_CENTER_ADD_COMMAND_DUPLICATE_COMMAND_ALIAS",
+							`Alias: ${alias || "undefined"}`
+						);
 
 						continue;
 					}
@@ -244,7 +259,10 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 				c.shortcuts.length > 0) {
 				for (const sc of c.shortcuts) {
 					if (this.shortcutList.includes(sc) === true) {
-						this.errorHandler.warn("ERROR_COMMAND_CENTER_ADD_COMMAND_DUPLICATE_COMMAND_SHORTCUT", "Shortcut: "+(sc || "undefined"));
+						this.errorHandler.warn(
+							"ERROR_COMMAND_CENTER_ADD_COMMAND_DUPLICATE_COMMAND_SHORTCUT",
+							`Shortcut: ${sc || "undefined"}`
+						);
 
 						continue;
 					}
@@ -274,7 +292,7 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 		/* parameter checks */
 
 		if (typeof userstate === "undefined") {
-			this.errorHandler.warn("ERROR_COMMAND_CENTER_PARSE_COMMAND_BAD_INFO", userstate);
+			this.errorHandler.warn("ERROR_COMMAND_CENTER_PARSE_COMMAND_BAD_INFO");
 
 			return false;
 		}
@@ -428,6 +446,8 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 				return;
 			}
 		}
+
+		/* blocked chatter? */
 
 		if (this.blockedUsers.includes(lcSender)) {
 			if ((Date.now()-this.blockInfo[lcSender].timestamp) > this.blockInfo[lcSender].duration*seconds) {

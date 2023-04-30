@@ -12,13 +12,11 @@ const errorCategories = [{
 
 const errorCodes = [];
 
-const warningCodes = [
-	{
-		key: "ERROR_DICTIONARY_ADD_ENTRIES_BAD_INFO",
-		message: "failed to add dictionary entries; unsuitable info",
-		category: "dictionary",
-	},
-];
+const warningCodes = [{
+	key: "ERROR_DICTIONARY_ADD_ENTRIES_BAD_INFO",
+	message: "failed to add dictionary entries; unsuitable info",
+	category: "dictionary",
+}];
 
 
 module.exports = {

@@ -192,9 +192,9 @@ class MessageQueue_TwitchChatBotModule extends TwitchChatBotModule
 	 */
 	start()
 	{
-		if (this.running ||
+		if (this.running === true ||
 			this.stallOverride === true ||
-			this.queue.length == 0) {
+			this.queue.length === 0) {
 			return;
 		}
 
@@ -210,7 +210,7 @@ class MessageQueue_TwitchChatBotModule extends TwitchChatBotModule
 	 */
 	stop()
 	{
-		if (this.running !== true) {
+		if (this.running === false) {
 			return;
 		}
 
