@@ -5,7 +5,7 @@
   <a href="https://www.npmjs.com/package/twitch-chat-bot"><img alt="NPM Version" src="https://img.shields.io/npm/v/twitch-chat-bot?maxAge=43200"></a>
   <a href="https://www.npmjs.com/package/twitch-chat-bot"><img alt="npm downloads per month" src="https://img.shields.io/npm/dm/twitch-chat-bot?maxAge=43200"></a>
   <a href="https://www.npmjs.com/package/twitch-chat-bot"><img alt="NPM bundle size" src="https://img.shields.io/bundlephobia/min/twitch-chat-bot?maxAge=43200"></a>
-  <a href="https://twitter.com/WildcardSearch"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/wildcardsearch?style=social&maxAge=43200"></a>
+  <a href="https://twitter.com/WildcardSearch"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/WildcardSearch?style=social&maxAge=43200"></a>
 </p>
 
 `npm install twitch-chat-bot`
