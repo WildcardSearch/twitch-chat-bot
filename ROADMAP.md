@@ -6,17 +6,20 @@ This document is meant to provide a prioritized list of tasks I wish to complete
 
 ✅ 0.3.0 - Service integrations separated from modules and standardized.
 
-# 0.4.0 `tmi.js`
+# 0.4.0 Internationalization ([i18n](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/i18n))
+
+- integrate [Polyglot.js](https://github.com/airbnb/polyglot.js) for i18n compliance
+- convert all hardcoded strings that are output to the end-user to translateable phrases for polyglot
+- error messages will remain in English
+- the default locale will be English "en"
+- look at incorporating `.toLocaleString` for `Number`s and `Date`s
+
+# 0.5.0 `tmi.js`
 
 - expand available events
 - document available resources in Wiki
 - research services provided and exploit as many as are practical
 - provide access to customize tmi.js through initialization options
-
-# 0.5.0 Internationalization ([i18n](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/i18n))
-
-- add language system to allow translations
-- currently looking at [Polyglot.js](https://github.com/airbnb/polyglot.js) as the footprint is minimal and should satisfy this project's simple needs
 
 # Other (To Be Scheduled)
 
