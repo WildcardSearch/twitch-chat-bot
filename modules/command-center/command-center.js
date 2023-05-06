@@ -608,9 +608,11 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 			return;
 		}
 
+		let timeoutLength = this.polyglot.t("moderation.timeout_length", d);
+
 		this.bot.sendMessage(this.polyglot.t("moderation.timeout_recommendation", {
 			username: user,
-			seconds: d,
+			timeout_length: timeoutLength,
 		}));
 	}
 
