@@ -4,15 +4,9 @@ This document is meant to provide a prioritized list of tasks I wish to complete
 
 ✅ 0.2.0 — Error System revamped. Simple, extensible, and practical.
 
-✅ 0.3.0 - Service integrations separated from modules and standardized.
+✅ 0.3.0 — Service integrations separated from modules and standardized.
 
-# 0.4.0 Internationalization ([i18n](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/i18n))
-
-- integrate [Polyglot.js](https://github.com/airbnb/polyglot.js) for i18n compliance
-- convert all hardcoded strings that are output to the end-user to translateable phrases for polyglot
-- error messages will remain in English
-- the default locale will be English "en"
-- look at incorporating `.toLocaleString` for `Number`s and `Date`s
+✅ 0.4.0 — Internationalization started. Integrated [Polyglot.js](https://github.com/airbnb/polyglot.js) for [i18n](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/i18n) compliance
 
 # 0.5.0 `tmi.js`
 
@@ -31,6 +25,8 @@ Before 1.0, I'd like to see many other features and changes to this project. Usu
 - Add internal, custom currency support
 
 ## Self-Documentation
+
+Expand to more than just commands. Allow mutiple formats, eg. plain text; HTML; GitHub-flavored Markdown (currently supports only Discord-flavored Markdown)
 
 Allow for every appropriate element to be documented automatically.
 
