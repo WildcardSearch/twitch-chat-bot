@@ -34,7 +34,6 @@
     "url": "https://github.com/wildcardsearch/twitch-chat-bot.git"
   },
   "dependencies": {
-    "i18n-locales": "^0.0.5",
     "mysql": "^2.18.1",
     "node-polyglot": "^2.5.0",
     "nodejs-streamelements": "^0.0.2",
