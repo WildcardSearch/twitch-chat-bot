@@ -33,6 +33,8 @@ class UserTracker_TwitchChatBotModule extends TwitchChatBotModule
 			key: "inactiveChatters",
 			type: "json",
 		}]);
+
+		this.polyglot.extend(require(`../../locales/${this.bot.locale}/user-tracker.json`));
 	}
 
 	/**
@@ -55,17 +57,17 @@ class UserTracker_TwitchChatBotModule extends TwitchChatBotModule
 
 		this.commandCenter.addCommand([{
 			key: "listchatters",
-			description: "Get a list of all the people that have chatted in the current stream.",
+			description: this.polyglot.t("user_tracker.commands.list_chatters.description"),
 			permissionLevel: this.permissions.permMap["PERMISSIONS_MODS"],
 			parser: this.parseCommand.bind(this),
 		}, {
 			key: "listactives",
-			description: "Get a list of all the people that are currently chatting in this stream.",
+			description: this.polyglot.t("user_tracker.commands.list_actives.description"),
 			permissionLevel: this.permissions.permMap["PERMISSIONS_MODS"],
 			parser: this.parseCommand.bind(this),
 		}, {
 			key: "listinactives",
-			description: "Get a list of all the people that were chatting in the stream earlier, but have gone quiet.",
+			description: this.polyglot.t("user_tracker.commands.list_inactives.description"),
 			permissionLevel: this.permissions.permMap["PERMISSIONS_MODS"],
 			parser: this.parseCommand.bind(this),
 		}]);
@@ -380,10 +382,16 @@ class UserTracker_TwitchChatBotModule extends TwitchChatBotModule
 			return;
 		}
 
-		userList = `There are ${userCount} ${description} chatters: `;
+		userList = this.polyglot.t("user_tracker.commands.list_chatters.chatter_list", {
+			"verb": this.polyglot.t("user_tracker.commands.list_chatters.chatters_verb", userCount),
+			"count": userCount,
+			"description": description,
+			"chatter_count_description": this.polyglot.t("user_tracker.commands.list_chatters.chatters", userCount),
+		});
+
 		Object.keys(userObject).forEach(user => {
 			userList += `${sep}${user}`;
-			sep = ", ";
+			sep = this.polyglot.t("user_tracker.commands.list_chatters.separator");
 		});
 
 		this.bot.sendMessage(userList);

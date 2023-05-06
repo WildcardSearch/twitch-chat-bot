@@ -1,0 +1,17 @@
+{
+	"timer": {
+		"commands": {
+			"live_time": {
+				"description": "Finden Sie heraus, wie lange es dauert, bis der Stream beginnt oder wie lange er schon live ist.",
+				"stream_time_since_live": "Der Stream ist seit %{time_description} live.",
+				"unknown_amount_of_time": "eine unbekannte Zeit",
+				"no_live_time_set": "Es wurde keine Live-Zeit eingestellt...",
+				"stream_time_till_live": "Der Stream wird in %{time_description} live gehen."
+			},
+			"go_live": {
+				"description": "Starten Sie das Live-Streaming",
+				"stream_already_live": "Der Stream ist bereits live."
+			}
+		}
+	}
+}

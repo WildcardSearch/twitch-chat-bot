@@ -1,4 +1,4 @@
-# twitch-chat-bot 0.3.0
+# twitch-chat-bot 0.4.0
 *a highly customizable base Twitch chat bot to build on*
 
 <p align="center">
@@ -42,7 +42,8 @@ See: [Getting Started](https://github.com/WildcardSearch/twitch-chat-bot/wiki#ge
 
 - Easy to get started.
 - Many, many aspects of bot operation can be controlled at a very low level
-- Event-driven operation allows a high level of control
+- Event-driven operation allows a high level of customization
+- i18n compliant (English & German translations available)
 
 *Command Center*
 - Add new chat commands by passing parameters

@@ -5,10 +5,6 @@
  */
 
 
-const {
-	formatTimeStamp,
-} = require("../../lib/functions.js");
-
 const TwitchChatBotModule = require("../../lib/twitch-chat-bot-module.js");
 
 const {
@@ -42,6 +38,8 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 		this.errorHandler.registerCategories(errorCategories);
 		this.errorHandler.registerWarnings(warningCodes);
 		this.errorHandler.registerCodes(errorCodes);
+
+		this.polyglot.extend(require(`../../locales/${this.bot.locale}/timer.json`));
 	}
 
 	/**
@@ -64,12 +62,12 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 
 		this.commandCenter.addCommand([{
 			key: "livetime",
-			description: "Find out how long until the stream starts or how long it has been live.",
+			description: this.polyglot.t("timer.commands.live_time.description"),
 			aliases: [ "lt" ],
 			parser: this.parseLiveTimeCommand.bind(this),
 		}, {
 			key: "golive",
-			description: "Go live.",
+			description: this.polyglot.t("timer.commands.go_live.description"),
 			permissionLevel: this.permissions.permMap["PERMISSIONS_STREAMER"],
 			parser: this.parseGoLiveCommand.bind(this),
 		}]);
@@ -108,7 +106,7 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 		const now = Date.now();
 
 		if (this.live === true) {
-			this.bot.sendMessage("The stream is already live.");
+			this.bot.sendMessage(this.polyglot.t("timer.commands.go_live.stream_already_live"));
 
 			return;
 		}
@@ -276,20 +274,24 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 		let timeDescription = "";
 
 		if (this.live) {
-			timeDescription = formatTimeStamp(Date.now() - this.liveTimestamp);
-			this.bot.sendMessage(`The stream has been live for ${timeDescription.description || "an unknown amount of time"}.`);
+			timeDescription = this.bot.formatTimeStamp(Date.now() - this.liveTimestamp);
+			this.bot.sendMessage(this.polyglot.t("timer.commands.live_time.stream_time_since_live", {
+				"live_time_description": timeDescription.description || this.polyglot.t("timer.commands.live_time.unknown_amount_of_time"),
+			}));
 
 			return;
 		}
 
 		if (this.liveTimestamp === null) {
-			this.bot.sendMessage("No live time has been set...");
+			this.bot.sendMessage(this.polyglot.t("timer.commands.live_time.no_live_time_set"));
 
 			return;
 		}
 
-		timeDescription = formatTimeStamp(this.liveTimestamp-Date.now());
-		this.bot.sendMessage(`The stream will go live in ${timeDescription.description || "an unknown amount of time"}.`);
+		timeDescription = this.bot.formatTimeStamp(this.liveTimestamp-Date.now());
+		this.bot.sendMessage(this.polyglot.t("timer.commands.live_time.stream_time_till_live", {
+			"time_description": timeDescription.description || this.polyglot.t("timer.commands.live_time.unknown_amount_of_time"),
+		}));
 	}
 
 	/**

@@ -36,6 +36,8 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 		this.errorHandler.registerCategories(errorCategories);
 		this.errorHandler.registerWarnings(warningCodes);
 		this.errorHandler.registerCodes(errorCodes);
+
+		this.polyglot.extend(require(`../../locales/${this.bot.locale}/command-center.json`));
 	}
 
 	/**
@@ -71,16 +73,16 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 
 		this.addCommand([{
 			key: "enable",
-			description: "Enable a chat command.",
+			description: this.polyglot.t("command_center.command_enable.description"),
 			inputRequired: true,
-			inputErrorMessage: "!enable {command} eg. !enable hug",
+			inputErrorMessage: this.polyglot.t("command_center.command_enable.input_error_message"),
 			permissionLevel: this.permissions.permMap["PERMISSIONS_STREAMER"],
 			parser: this.parseEnableCommand.bind(this),
 		}, {
 			key: "disable",
-			description: "Disable a chat command.",
+			description: this.polyglot.t("command_center.command_disable.description"),
 			inputRequired: true,
-			inputErrorMessage: "!disable {command} eg. !disable hug",
+			inputErrorMessage: this.polyglot.t("command_center.command_disable.input_error_message"),
 			permissionLevel: this.permissions.permMap["PERMISSIONS_STREAMER"],
 			parser: this.parseDisableCommand.bind(this),
 		}]);
@@ -104,7 +106,9 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 		}
 
 		if (this.disabledCommands.includes(cleanParameter1) === true) {
-			this.bot.sendMessage(`The ${cleanParameter1} command is already disabled.`);
+			this.bot.sendMessage(this.polyglot.t("command_center.command_already_disabled", {
+				"command_name": cleanParameter1,
+			}));
 
 			return;
 		}
@@ -117,7 +121,9 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 			this.disabledCommands.push(cleanParameter1);
 		}
 
-		this.bot.sendMessage(`The ${cleanParameter1} command is now disabled.`);
+		this.bot.sendMessage(this.polyglot.t("command_center.command_disabled", {
+			command_name: cleanParameter1,
+		}));
 	}
 
 	/**
@@ -136,7 +142,9 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 		}
 
 		if (this.disabledCommands.includes(cleanParameter1) === false) {
-			this.bot.sendMessage(`The ${cleanParameter1} command is not currently disabled.`);
+			this.bot.sendMessage(this.polyglot.t("command_center.command_not_disabled", {
+				"command_name": cleanParameter1,
+			}));
 
 			return;
 		}
@@ -156,7 +164,9 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 
 		this.disabledCommands.splice(this.disabledCommands.indexOf(cleanParameter1.toLowerCase()), 1);
 
-		this.bot.sendMessage(`The ${cleanParameter1} command is now enabled.`);
+		this.bot.sendMessage(this.polyglot.t("command_center.command_enabled", {
+			command_name: cleanParameter1,
+		}));
 	}
 
 	/**
@@ -371,7 +381,9 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 
 		if (this.disabledCommands.includes(cleanCommand) === true) {
 			this.bot.log(`blocked ${lcSender} from using "!${cleanCommand}"`);
-			this.bot.sendMessage(`The "${cleanCommand}" command is currently disabled.`);
+			this.bot.sendMessage(this.polyglot.t("command_currently_enabled", {
+				"command_name": cleanCommand,
+			}));
 
 			return;
 		}
@@ -381,7 +393,9 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 		if (this.commands[cleanCommand].inputRequired === true &&
 			(typeof msgPieces[1] === "undefined" ||
 			msgPieces[1].length === 0)) {
-			this.bot.sendMessage("Usage: "+(this.commands[cleanCommand].inputErrorMessage || "Input required"));
+			this.bot.sendMessage(this.polyglot.t("input_required_message", {
+				usage: this.commands[cleanCommand].inputErrorMessage || this.polyglot.t("input_required"),
+			}));
 
 			return false;
 		}
@@ -433,7 +447,9 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 		if (userPermissionLevel < this.options.moderation.cooldownExemptionLevel) {
 			if (typeof this.activity[lcSender].lastCommandTime === "number" &&
 				(Date.now()-this.activity[lcSender].lastCommandTime) < this.options.moderation.globalCooldown) {
-				this.cooldownWarning(userstate["display-name"], cleanCommand, `${userstate["display-name"]}, you are using commands too quickly. Please slow down.`);
+				this.cooldownWarning(userstate["display-name"], cleanCommand, this.polyglot.t("moderation.user_blocked", {
+					"username": userstate["display-name"],
+				}));
 
 				return;
 			}
@@ -456,7 +472,9 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 
 				this.bot.log(`cooldown violation expires: ${lcSender}`);
 			} else {
-				this.cooldownWarning(userstate["display-name"], cleanCommand, `${userstate["display-name"]}, you are blocked from using commands for using commands too quickly. Please slow down.`);
+				this.cooldownWarning(userstate["display-name"], cleanCommand, this.polyglot.t("moderation.user_blocked", {
+					"username": userstate["display-name"],
+				}));
 
 				this.bot.log(`Blocked ${userstate["display-name"]} from using "!${cleanCommand}" for cooldown violation`);
 
@@ -563,7 +581,10 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 			duration: d,
 		};
 
-		this.bot.sendMessage(`${user} you have been blocked from using commands for ${d} seconds for using commands too quickly. Please, play nice.`);
+		this.bot.sendMessage(this.polyglot.t("moderation.user_blocked_for", {
+			username: user,
+			seconds: d,
+		}));
 	}
 
 	/**
@@ -574,19 +595,25 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 	 */
 	recommendTimeout(user)
 	{
-		let d = this.getTimeoutDuration(user);
+		let d = this.getTimeoutDuration(user),
+			reason = this.polyglot.t("moderation.timeout_reason_generic");
 
 		if (d === false) {
 			return false;
 		}
 
 		if (this.options.moderation.permissions === BOT_MOD_PERMISSION_ACT) {
-			this.bot.sendMessage(`/timeout ${user} ${d} repeated rules violations`);
+			this.bot.sendMessage(`/timeout ${user} ${d} ${reason}`);
 
 			return;
 		}
 
-		this.bot.sendMessage(`MODS: I recommend that ${user} is timed out for ${d} seconds`);
+		let timeoutLength = this.polyglot.t("moderation.timeout_length", d);
+
+		this.bot.sendMessage(this.polyglot.t("moderation.timeout_recommendation", {
+			username: user,
+			timeout_length: timeoutLength,
+		}));
 	}
 
 	/**
@@ -597,6 +624,8 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 	 */
 	recommendBan(user)
 	{
+		let reason = this.polyglot.t("moderation.ban_reason_generic");
+
 		if (this.activity[user.toLowerCase()].banWarning === true) {
 			this.bot.log(`multiple ban warnings: ${user}`);
 
@@ -604,12 +633,15 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 		}
 
 		if (this.options.moderation.permissions === BOT_MOD_PERMISSION_ACT) {
-			this.bot.sendMessage(`/ban ${user} repeated rules violations`);
+			this.bot.sendMessage(`/ban ${user} ${reason}`);
 
 			return;
 		}
 
-		this.bot.sendMessage(`MODS: I recommend that ${user} is banned for repeated violations of the rules.`);
+		this.bot.sendMessage(this.polyglot.t("moderation.ban_recommendation", {
+			username: user,
+			reason: reason,
+		}));
 
 		this.activity[user.toLowerCase()].banWarning = true;
 	}
