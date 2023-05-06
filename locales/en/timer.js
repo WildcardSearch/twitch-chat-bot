@@ -1,0 +1,17 @@
+module.exports = {
+	"timer": {
+		"commands": {
+			"live_time": {
+				"description": "Find out how long until the stream starts or how long it has been live.",
+				"stream_time_since_live": "The stream has been live for %{time_description}.",
+				"unknown_amount_of_time": "an unknown amount of time",
+				"no_live_time_set": "No live time has been set...",
+				"stream_time_till_live": "The stream will go live in %{time_description}.",
+			},
+			"go_live": {
+				"description": "Go live.",
+				"stream_already_live": "The stream is already live.",
+			},
+		},
+	},
+};
