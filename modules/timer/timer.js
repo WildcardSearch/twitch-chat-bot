@@ -5,10 +5,6 @@
  */
 
 
-const {
-	formatTimeStamp,
-} = require("../../lib/functions.js");
-
 const TwitchChatBotModule = require("../../lib/twitch-chat-bot-module.js");
 
 const {
@@ -278,7 +274,7 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 		let timeDescription = "";
 
 		if (this.live) {
-			timeDescription = formatTimeStamp(Date.now() - this.liveTimestamp);
+			timeDescription = this.bot.formatTimeStamp(Date.now() - this.liveTimestamp);
 			this.bot.sendMessage(this.polyglot.t("timer.commands.live_time.stream_time_since_live", {
 				"live_time_description": timeDescription.description || this.polyglot.t("timer.commands.live_time.unknown_amount_of_time"),
 			}));
@@ -292,7 +288,7 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 			return;
 		}
 
-		timeDescription = formatTimeStamp(this.liveTimestamp-Date.now());
+		timeDescription = this.bot.formatTimeStamp(this.liveTimestamp-Date.now());
 		this.bot.sendMessage(this.polyglot.t("timer.commands.live_time.stream_time_till_live", {
 			"time_description": timeDescription.description || this.polyglot.t("timer.commands.live_time.unknown_amount_of_time"),
 		}));
