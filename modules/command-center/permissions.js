@@ -17,6 +17,16 @@ class Permissions_TwitchChatBotModule extends TwitchChatBotModule
 	id = "permissions";
 
 	/**
+	 * install module elements
+	 *
+	 * @return void
+	 */
+	install()
+	{
+		this.polyglot.extend(require(`../../locales/${this.bot.locale}/permissions.js`));
+	}
+
+	/**
 	 * process all permission levels and then order them
 	 *
 	 * @return void
@@ -26,32 +36,32 @@ class Permissions_TwitchChatBotModule extends TwitchChatBotModule
 		this.allPermissions = [{
 				key: "PERMISSIONS_ALL",
 				level: PERMISSIONS_ALL,
-				description: "all users",
+				description: this.polyglot.t("permissions.all_users.description"),
 			}, {
 				key: "PERMISSIONS_VIPS",
 				level: PERMISSIONS_VIPS,
-				description: "VIPs",
+				description: this.polyglot.t("permissions.vips.description"),
 				test: (options) => {
 					return options.vip === true;
 				},
 			}, {
 				key: "PERMISSIONS_SUBS",
 				level: PERMISSIONS_SUBS,
-				description: "subscribers",
+				description: this.polyglot.t("permissions.subs.description"),
 				test: (options) => {
 					return options.subscriber === true;
 				},
 			}, {
 				key: "PERMISSIONS_MODS",
 				level: PERMISSIONS_MODS,
-				description: "moderators",
+				description: this.polyglot.t("permissions.mods.description"),
 				test: (options) => {
 					return options.mod === true;
 				},
 			}, {
 				key: "PERMISSIONS_STREAMER",
 				level: PERMISSIONS_STREAMER,
-				description: "broadcaster",
+				description: this.polyglot.t("permissions.broadcaster.description"),
 				test: (options) => {
 					return options.lcSender === this.bot.channel;
 				},
@@ -113,7 +123,7 @@ class Permissions_TwitchChatBotModule extends TwitchChatBotModule
 			permKeys.push(p.key);
 			permMap[p.key] = p.level;
 			permLevelMap[p.level] = p.key;
-			permLevelDescriptionMap[p.level] = p.description || "no description";
+			permLevelDescriptionMap[p.level] = p.description || this.polyglot.t("no_description");
 		}
 
 		this.allPermissions = perms;
