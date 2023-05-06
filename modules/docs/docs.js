@@ -25,9 +25,11 @@ class Documentation_TwitchChatBotModule extends TwitchChatBotModule
 	{
 		this.path = this.bot.options.docs.path || "";
 
+		this.polyglot.extend(require(`../../locales/${this.bot.locale}/docs.js`));
+
 		this.commandCenter.addCommand({
 			key: "helpfile",
-			description: "Produce this document.",
+			description: this.polyglot.t("docs.command_helpfile_description"),
 			permissionLevel: this.permissions.permMap["PERMISSIONS_STREAMER"],
 			parser: this.parseCommand.bind(this),
 		});
@@ -68,7 +70,16 @@ class Documentation_TwitchChatBotModule extends TwitchChatBotModule
 				continue;
 			}
 
-			output[p] = `**${this.bot.displayName}** (${this.bot.instanceVersion})\n*automatically generated command list*\n\n**${this.permissions.permLevelDescriptionMap[p].toUpperCase()}**`;
+			output[p] = this.polyglot.t("docs.command_list.heading", {
+				"bold_start": "**",
+				"bold_end": "**",
+				"italic_start": "*",
+				"italic_end": "*",
+				"newline": "\n",
+				"display_name": this.bot.displayName,
+				"instance_version": this.bot.instanceVersion,
+				"permission_group_description": this.permissions.permLevelDescriptionMap[p].toUpperCase(),
+			});
 
 			// build the description for each command
 			for (const thisCommand of allCommands[p]) {
@@ -76,25 +87,36 @@ class Documentation_TwitchChatBotModule extends TwitchChatBotModule
 					continue;
 				}
 
-				let aliasPhrase = "Aliases",
+				let aliasCount = 0,
+					aliasPhrase,
 					usageText = "",
 					commandAliasList = "";
 
 				if (typeof thisCommand.aliases !== "undefined" &&
 					thisCommand.aliases.length > 0) {
 					commandAliasList = "!"+thisCommand.aliases.join(", !");
-					if (thisCommand.aliases.length === 1) {
-						aliasPhrase = "Alias";
-					}
+					aliasCount = thisCommand.aliases.length;
+				}
+
+				if (aliasCount > 0) {
+					aliasPhrase = this.polyglot.t("docs.command_list.alias_count", aliasCount);
+					commandAliasList = this.polyglot.t("docs.command_list.alias_list", {
+						"bold_start": "**",
+						"bold_end": "**",
+						"newline": "\n",
+						"title": aliasPhrase,
+						"alias_list": commandAliasList,
+					});
 				}
 
 				if (typeof thisCommand.inputErrorMessage === "string" &&
 					thisCommand.inputErrorMessage.length > 0) {
-					usageText = `\n**Usage:** ${thisCommand.inputErrorMessage}`;
-				}
-
-				if (commandAliasList.length > 0) {
-					commandAliasList = `\n**${aliasPhrase}:** ${commandAliasList}`;
+					usageText = this.polyglot.t("docs.command_list.usage_text", {
+						"bold_start": "**",
+						"bold_end": "**",
+						"newline": "\n",
+						"usage": thisCommand.inputErrorMessage,
+					});
 				}
 
 				output[p] += `\n\n\`!${thisCommand.key}\` — ${thisCommand.description}${commandAliasList}${usageText}`;
@@ -114,7 +136,7 @@ class Documentation_TwitchChatBotModule extends TwitchChatBotModule
 			writeFile(path, output[p]);
 		}
 
-		this.bot.sendMessage("Help file(s) generated.");
+		this.bot.sendMessage(this.polyglot.t("docs.success"));
 	}
 
 	/**
