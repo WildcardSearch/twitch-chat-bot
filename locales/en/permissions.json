@@ -1,20 +1,20 @@
 {
 	"permissions": {
 		"all_users": {
-			"description": "all users",
+			"description": "all users"
 		},
 		"vips": {
-			"description": "VIPs",
+			"description": "VIPs"
 		},
 		"subs": {
-			"description": "subscribers",
+			"description": "subscribers"
 		},
 		"mods": {
-			"description": "moderators",
+			"description": "moderators"
 		},
 		"broadcaster": {
-			"description": "broadcaster",
+			"description": "broadcaster"
 		},
 		"no_description": "no description"
-	},
+	}
 }

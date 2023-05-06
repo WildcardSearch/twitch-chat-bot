@@ -1,4 +1,4 @@
-# twitch-chat-bot 0.4.0
+# twitch-chat-bot 0.4.1
 *a highly customizable base Twitch chat bot to build on*
 
 <p align="center">
