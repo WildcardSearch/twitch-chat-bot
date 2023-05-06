@@ -1,4 +1,4 @@
-module.exports = {
+{
 	"permissions": {
 		"all_users": {
 			"description": "all users",
@@ -17,4 +17,4 @@ module.exports = {
 		},
 		"no_description": "no description"
 	},
-};
+}

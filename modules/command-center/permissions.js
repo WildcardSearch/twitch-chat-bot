@@ -23,7 +23,7 @@ class Permissions_TwitchChatBotModule extends TwitchChatBotModule
 	 */
 	install()
 	{
-		this.polyglot.extend(require(`../../locales/${this.bot.locale}/permissions.js`));
+		this.polyglot.extend(require(`../../locales/${this.bot.locale}/permissions.json`));
 	}
 
 	/**

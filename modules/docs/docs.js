@@ -25,7 +25,7 @@ class Documentation_TwitchChatBotModule extends TwitchChatBotModule
 	{
 		this.path = this.bot.options.docs.path || "";
 
-		this.polyglot.extend(require(`../../locales/${this.bot.locale}/docs.js`));
+		this.polyglot.extend(require(`../../locales/${this.bot.locale}/docs.json`));
 
 		this.commandCenter.addCommand({
 			key: "helpfile",

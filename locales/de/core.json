@@ -1,4 +1,4 @@
-module.exports = {
+{
 	"core": {
 		"initial_sub_test": "Abo-Test",
 		"sub_test": "Abo-Test #%{count}...",
@@ -13,12 +13,12 @@ module.exports = {
 			"hours": "Stunde |||| Stunden",
 			"minutes": "Minute |||| Minuten",
 			"seconds": "Sekunde |||| Sekunden",
-			"milliseconds": "Millisekunde |||| Millisekunden",
+			"milliseconds": "Millisekunde |||| Millisekunden"
 		},
 		"get_separator": {
 			"standard_separator": ", ",
 			"two_items_separator": " und ",
-			"three_or_more_oxford_comma": ", und ",
-		},
-	},
-};
+			"three_or_more_oxford_comma": ", und "
+		}
+	}
+}

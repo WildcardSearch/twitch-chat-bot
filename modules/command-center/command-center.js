@@ -37,7 +37,7 @@ class CommandCenter_TwitchChatBotModule extends TwitchChatBotModule
 		this.errorHandler.registerWarnings(warningCodes);
 		this.errorHandler.registerCodes(errorCodes);
 
-		this.polyglot.extend(require(`../../locales/${this.bot.locale}/command-center.js`));
+		this.polyglot.extend(require(`../../locales/${this.bot.locale}/command-center.json`));
 	}
 
 	/**

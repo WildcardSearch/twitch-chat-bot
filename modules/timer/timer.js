@@ -39,7 +39,7 @@ class StreamTimer_TwitchChatBotModule extends TwitchChatBotModule
 		this.errorHandler.registerWarnings(warningCodes);
 		this.errorHandler.registerCodes(errorCodes);
 
-		this.polyglot.extend(require(`../../locales/${this.bot.locale}/timer.js`));
+		this.polyglot.extend(require(`../../locales/${this.bot.locale}/timer.json`));
 	}
 
 	/**

@@ -1,12 +1,12 @@
-module.exports = {
+{
 	"command_center": {
 		"command_enable": {
 			"description": "Aktivieren Sie einen Chat-Befehl.",
-			"input_error_message": "!enable {Chat-Befehl} eg. !enable hug",
+			"input_error_message": "!enable {Chat-Befehl} eg. !enable hug"
 		},
 		"command_disable": {
 			"description": "Deaktivieren Sie einen Chat-Befehl.",
-			"input_error_message": "!disable {Chat-Befehl} eg. !disable hug",
+			"input_error_message": "!disable {Chat-Befehl} eg. !disable hug"
 		},
 		"command_already_disabled": "Der Befehl %{command_name} ist bereits deaktiviert.",
 		"command_disabled": "Der Befehl %{command_name} ist jetzt deaktiviert.",
@@ -23,7 +23,7 @@ module.exports = {
 			"timeout_length": "%{smart_count} Sekunde |||| %{smart_count} Sekunden",
 			"timeout_recommendation": "Moderatorinnen: Ich empfehle eine Auszeit von %{timeout_length} für %{username}.",
 			"ban_reason_generic": "wiederholte Regelverstöße",
-			"ban_recommendation": "Moderatorinnen: Ich empfehle, dass %{username} aus %{reason} dauerhaft vom Chat ausgeschlossen wird.",
-		},
-	},
-};
+			"ban_recommendation": "Moderatorinnen: Ich empfehle, dass %{username} aus %{reason} dauerhaft vom Chat ausgeschlossen wird."
+		}
+	}
+}

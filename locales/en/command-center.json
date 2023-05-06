@@ -1,4 +1,4 @@
-module.exports = {
+{
 	"command_center": {
 		"command_enable": {
 			"description": "Enable a chat command.",
@@ -26,4 +26,4 @@ module.exports = {
 			"ban_recommendation": "MODS: I recommend that %{username} is banned for %{reason}",
 		},
 	},
-};
+}

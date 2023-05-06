@@ -1,4 +1,4 @@
-module.exports = {
+{
 	"docs": {
 		"command_helpfile_description": "Produce documentation for the chat bot.",
 		"command_list": {
@@ -9,4 +9,4 @@ module.exports = {
 		},
 		"success": "Documentation has been generated.",
 	},
-};
+}

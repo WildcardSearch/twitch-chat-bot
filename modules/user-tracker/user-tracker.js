@@ -34,7 +34,7 @@ class UserTracker_TwitchChatBotModule extends TwitchChatBotModule
 			type: "json",
 		}]);
 
-		this.polyglot.extend(require(`../../locales/${this.bot.locale}/user-tracker.js`));
+		this.polyglot.extend(require(`../../locales/${this.bot.locale}/user-tracker.json`));
 	}
 
 	/**
