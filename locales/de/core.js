@@ -1,0 +1,24 @@
+module.exports = {
+	"core": {
+		"initial_sub_test": "Abo-Test",
+		"sub_test": "Abo-Test #%{count}...",
+		"init_message": "%{implementation_name} Softwareversion %{implementation_version} (%{core_name} Softwareversion %{core_version}) — initialisieren...",
+		"format_time_stamp": {
+			"centuries": "Jahrhundert |||| Jahrhunderte",
+			"decades": "Jahrzehnt |||| Jahrzehnte",
+			"years": "Jahr |||| Jahre",
+			"months": "Monat |||| Monate",
+			"weeks": "Woche |||| Wochen",
+			"days": "Tag |||| Tage",
+			"hours": "Stunde |||| Stunden",
+			"minutes": "Minute |||| Minuten",
+			"seconds": "Sekunde |||| Sekunden",
+			"milliseconds": "Millisekunde |||| Millisekunden",
+		},
+		"get_separator": {
+			"standard_separator": ", ",
+			"two_items_separator": " und ",
+			"three_or_more_oxford_comma": ", und ",
+		},
+	},
+};

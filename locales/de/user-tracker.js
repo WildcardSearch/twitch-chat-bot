@@ -1,0 +1,19 @@
+module.exports = {
+	"user_tracker": {
+		"commands": {
+			"list_chatters": {
+				"description": "Rufen Sie eine Liste aller Personen ab, die im aktuellen Stream gechattet haben.",
+				"chatter_list": "Hier %{verb} %{count} %{description} %{chatter_count_description}: ",
+				"chatters": "Geschwätz |||| schwätzt",
+				"chatters_verb": "Ist |||| Sind",
+				"separator": ", ",
+			},
+			"list_actives": {
+				"description": "Rufen Sie eine Liste aller Personen ab, die derzeit in diesem Stream chatten.",
+			},
+			"list_inactives": {
+				"description": "Rufen Sie eine Liste aller Personen ab, die zuvor im Stream gechattet haben, aber still geworden sind.",
+			},
+		},
+	},
+};
