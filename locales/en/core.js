@@ -15,6 +15,11 @@ module.exports = {
 			"seconds": "second |||| seconds",
 			"milliseconds": "millisecond |||| milliseconds",
 		},
+		"get_separator": {
+			"standard_separator": ", ",
+			"two_items_separator": " and ",
+			"three_or_more_oxford_comma": ", and ",
+		},
 	},
 };
 
