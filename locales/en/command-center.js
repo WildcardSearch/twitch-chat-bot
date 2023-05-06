@@ -1,0 +1,28 @@
+module.exports = {
+	"command_center": {
+		"command_enable": {
+			"description": "Enable a chat command.",
+			"input_error_message": "!enable {command} eg. !enable hug",
+		},
+		"command_disable": {
+			"description": "Disable a chat command.",
+			"input_error_message": "!disable {command} eg. !disable hug",
+		},
+		"command_already_disabled": "The %{command_name} command is already disabled.",
+		"command_disabled": "The %{command_name} command is now disabled.",
+		"command_not_disabled": "The %{command_name} command is not currently disabled.",
+		"command_enabled": "The %{command_name} command is now enabled.",
+		"command_currently_disabled": "The \"%{command_name}\" command is currently disabled.",
+		"command_currently_enabled": "The \"%{command_name}\" command is currently disabled.",
+		"input_required": "Input Required",
+		"input_required_message": "Usage: %{usage}",
+		"moderation": {
+			"user_blocked": "%{username}, you are blocked from using commands for using commands too quickly. Please slow down.",
+			"user_blocked_for": "%{username} you have been blocked from using commands for %{seconds} seconds for using commands too quickly. Please, play nice.",
+			"timeout_reason_generic": "repeated rules violations",
+			"timeout_recommendation": "MODS: I recommend that %{username} is timed out for %{seconds} seconds",
+			"ban_reason_generic": "repeated rules violations",
+			"ban_recommendation": "MODS: I recommend that %{username} is banned for %{reason}",
+		},
+	},
+};
